@@ -1,0 +1,7 @@
+[user]
+	name = Martin Tomes
+	email = tomesm@gmail.com
+[push]
+	autoSetupRemote = true
+[core]
+	excludesfile = /Users/martin/.gitignore_global

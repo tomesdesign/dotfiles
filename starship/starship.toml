@@ -1,0 +1,15 @@
+
+
+
+[gcloud]
+detect_env_vars = ["CLOUDSDK_CONFIG"]
+format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[shell]
+disabled = false

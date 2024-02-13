@@ -1,0 +1,13 @@
+import = ["/Users/martin/.config/alacritty/themes/solarized_dark.toml"]
+
+[font]
+size = 18
+
+[font.normal]
+family = "MesloLGS NF"
+
+[window]
+
+[window.dimensions]
+columns = 140
+lines = 40

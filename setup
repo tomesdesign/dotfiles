@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# This is the setup script for my config. The idea is to be able to run
+# this after cloning the repo on a Mac or Ubuntu (WSL) system and be up
+# and running very quickly.
+#
+# Stolen from Mischa van Den Burg:
+# https://github.com/mischavandenburg/dotfiles/blob/main/setup
+
+# Create directories
+mkdir -p $HOME/.config/alacritty
+mkdir -p $HOME/.config/starship
+
+
+# Symbolic links
+ln -sf $PWD/alacritty/alacritty.toml $HOME/.config/alacritty/alacritty.toml
+ln -sf $PWD/.bash_profile $HOME/.bash_profile
+ln -sf $PWD/.bashrc $HOME/.bashrc
+ln -sf $PWD/tmux/.tmux.conf $HOME/.tmux.conf
+ln -sf $PWD/vim/.vimrc $HOME/.vimrc
+ln -sf $PWD/git/.gitconfig $HOME/.gitconfig
+ln -sf $PWD/git/.gitignore_global $HOME/.gitignore_global
+ln -sf $PWD/starship/starship.toml $HOME/.config/starship/starship.toml
