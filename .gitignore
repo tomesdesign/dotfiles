@@ -1,2 +1,4 @@
 keys
+certificates
 *.gpg
+.DS_Store

@@ -122,7 +122,7 @@ inoremap <right> <NOP>
 imap <tab><tab> <c-x><c-o>
 
 " leader key
-let mapleader=","
+let mapleader=" "
 
 " disable search highlighting with <C-L> when refreshing screen
 nnoremap <C-L> :nohl<CR><C-L>
@@ -187,9 +187,9 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
   " fzf
   " set rtp+=/opt/homebrew/opt/fzf
-  nnoremap <C-p> :Files<CR>
-  nnoremap <C-g> :GFiles<CR>
-  nnoremap <C-f> :Rg! 
+  nnoremap <leader>ff :Files<CR>
+  nnoremap <leader>fg :GFiles<CR>
+  nnoremap <leared>fs :Rg! 
 
   " color theme
   colorscheme solarized8_flat

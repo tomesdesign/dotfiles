@@ -22,7 +22,7 @@ declare OPENAI_API_KEY
 OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
 export OPENAI_API_KEY
 
-# ~~~~~~~~~~~~~~~ History ~~~~~~~~~~~~~~~~~~~~~~~~
+# ~~~~~~~~~~~~~~~ Exports  ~~~~~~~~~~~~~~~~~~~~~~~~
 
 # export HISTFILE=~/.histfile
 export HISTSIZE=25000
@@ -30,18 +30,19 @@ export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
 
+export PKM="$HOME/repos/zet"
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
 alias vi="nvi"
 alias repos="cd $HOME/repos"
 alias dotfiles="cd $HOME/repos/dotfiles"
 alias src="source $HOME/.bashrc"
-alias pkm="cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Ideaverse"
+alias ideaverse="cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Ideaverse"
 alias raspi="ssh raspibolt"
-alias ls="eza --group-directories-first"
-alias cat="bat"
+# alias ls="eza --group-directories-first"
+# alias cat="bat"
 alias lynx="$HOME/.local/bin/lynx"
-alias rss="newsboat"
+alias rss="newsboat -r"
 alias '?'="duck"
 alias '??'="gpt"
 alias mutt="neomutt"

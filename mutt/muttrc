@@ -1,5 +1,5 @@
 source ~/.config/mutt/keys
-# source ~/.config/mutt/wizard
+source ~/.config/mutt/wizard
 
 set from = $my_user 
 set realname = "Martin Tomes"
@@ -10,14 +10,30 @@ set folder = "imap://localhost:1143"
 
 set smtp_url = "smtps://$my_user:$my_pass@localhost:1025/"
 
-set ssl_force_tls = yes
-set ssl_starttls = yes
-
 set spoolfile = "+INBOX"
 set postponed = "+Drafts"
 set mbox = "+INBOX"
 set record = "+Sent"
 
+mailboxes -label "INBOX" $spoolfile
+mailboxes -label "Drafts" $postponed
+mailboxes -label "Sent" $record
+mailboxes -label "Trash" "+Trash"
+mailboxes -label "Archive" "+Archive"
+
 set header_cache = "~/.cache/mutt/headers"
 set message_cachedir = "~/.cache/mutt/bodies"
 set certificate_file = "~/./config/mutt/certificates"
+
+set ssl_force_tls = yes
+set ssl_starttls = yes
+
+# This allows to accept and save certificates
+set ssl_verify_dates = no
+set ssl_verify_host = no
+
+# set sort = reverse-threads
+set sort = threads
+set sort_aux = date-received
+# set record = "+INBOX"
+

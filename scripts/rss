@@ -1,0 +1,2 @@
+#!/bin/bash
+tmux split-pane -h \; resize-pane -x 150\; send -t 2 "newsboat -r" Enter\; send -t 1 "clear" Enter
