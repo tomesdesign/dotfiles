@@ -10,3 +10,6 @@ disabled = true
 
 [shell]
 disabled = false
+
+[golang]
+disabled = true

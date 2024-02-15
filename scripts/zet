@@ -1,50 +1,48 @@
 #!/bin/bash
 
-# A bash script that helps me create notes in my Personal Knowledge Management
-# based on my zet script by Mischa van den Burg: https://github.com/mischavandenburg/dotfiles/blob/main/scripts/zet
-
+# A bash script that helps me create notes in my second brain
+# based on my "blog" script
 # TODO
 # 1. check if file already exists
-# 2. write this in Go :)
+# 2. Allow only one word or dash separated filenames as an input. 
 
 # function to prompt the user for a filename
 get_filename() {
 	read -p "Enter a filename: " filename
-	echo "$filename"
+    echo $filename
 }
 
 # function to create and open a file in the specified directory
 open_file() {
-
 	# Cd into the directory
 	cd "$1" || exit
-	# Create the file in the specified directory
-	touch "$1/$filename.md"
-
-	# create unique identifier and links section
-	timestamp="$(date +"%Y%m%d%H%m")"
+    # create unique identifier 
+    timestamp="$(date +"%Y%m%d%H%M%S")"
+    # Create the file in the specified directory
+    touch "$1/$filename.md"
+    # Remove the dashes and capitalize all words
+	title=$( echo "$filename" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) substr($i,2)}}1' )
 
 	# format the file
 	{
-		echo "# $filename"
+		echo "# $title"
 		echo -en "\n"
-    echo "---"
-    echo -en "\n"
-    echo "up:: "
-    echo "tags:: "
-    echo -en "\n"
-    echo "---"
-		echo -en "\n"
-    echo -en "\n"
-    echo -en "\n"
-    echo -en "\n"
+        echo "---"
+        echo -en "\n"
+        echo "tags:: "
+        echo -en "\n"
+        echo "---"
+        echo -en "\n"
+        echo -en "\n"
+        echo -en "\n"
+        echo -en "\n"
 		echo "Links:"
 		echo -en "\n"
 		echo "$timestamp"
 	} >>"$1/$filename.md"
 
-	# Open the file in Neovim
-	vim '+ normal ggzzi' "$1/$filename.md" 
+	# Open the file in Vim
+	vim '+ normal 4jA' "$1/$filename.md" 
 }
 
 # Prompt the user if no filename is provided

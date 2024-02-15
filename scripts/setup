@@ -1,0 +1,9 @@
+#!/bin/bash
+# Setup the custom scripts
+
+ln -sf $PWD/duck $HOME/.local/bin/duck
+ln -sf $PWD/gpt $HOME/.local/bin/gpt
+ln -sf $PWD/lynx $HOME/.local/bin/lynx
+ln -sf $PWD/rss $HOME/.local/bin/rss
+ln -sf $PWD/urlencode $HOME/.local/bin/urlencode
+ln -sf $PWD/zet $HOME/.local/bin/zet
