@@ -62,4 +62,4 @@ if [[ $# -eq 1 ]]; then
 	filename=$1
 fi
 
-open_file "$PKM/+"
+open_file "$PKM/inbox"

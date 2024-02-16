@@ -22,3 +22,4 @@ ln -sf $PWD/git/.gitconfig $HOME/.gitconfig
 ln -sf $PWD/git/.gitignore_global $HOME/.gitignore_global
 ln -sf $PWD/starship/starship.toml $HOME/.config/starship/starship.toml
 ln -sf $PWD/mutt $HOME/.config/mutt
+ln -sf $PWD/lynx $HOME/.config/lynx

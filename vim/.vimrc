@@ -8,6 +8,7 @@ endif
 
 set nocompatible
 
+
 "####################### Vi Compatible (~/.exrc) #######################
 " Copy this settings into ~/.exrc on a system where VIM is not available
 
@@ -66,6 +67,9 @@ set linebreak
 
 " Avoid most of the 'Hit Enter ...' annoying messages
 set shortmess=aoOtTI
+
+" faster scrolling
+set ttyfast
 
 "######################### Do things without plugins #########################################
 
@@ -130,95 +134,6 @@ nnoremap <C-L> :nohl<CR><C-L>
 " always use case insensitive search
 nnoremap / /\c
 
-"######################### PLUGINS  #########################################
-
-if filereadable(expand("~/.vim/autoload/plug.vim"))
-
-  " github.com/junegunn/vim-plug
-
-  call plug#begin('~/.local/share/vim/plugins')
-    Plug 'vimwiki/vimwiki'
-    Plug 'lifepillar/vim-solarized8'
-    Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-    Plug 'vim-pandoc/vim-pandoc'
-    Plug 'rwxrob/vim-pandoc-syntax-simple'
-    Plug 'dense-analysis/ale'
-    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-    Plug 'junegunn/fzf.vim'
-    Plug 'vim-airline/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
-    Plug 'tpope/vim-fugitive'
-  call plug#end()
-
-  " ALE linter
-  let g:ale_sign_error = '☠'
-  let g:ale_sign_warning = '🙄'
-  let g:ale_linters = {'go': ['gometalinter', 'gofmt','gobuild']}
-
-  " pandoc
-  let g:pandoc#formatting#mode = 'h' " A'
-  let g:pandoc#formatting#textwidth = 72
-
-  " golang
-  let g:go_fmt_fail_silently = 0
-  let g:go_fmt_command = 'goimports'
-  let g:go_fmt_autosave = 1
-  let g:go_gopls_enabled = 1
-  let g:go_highlight_types = 1
-  let g:go_highlight_fields = 1
-  let g:go_highlight_functions = 1
-  let g:go_highlight_function_calls = 1
-  let g:go_highlight_operators = 1
-  let g:go_highlight_extra_types = 1
-  let g:go_highlight_variable_declarations = 1
-  let g:go_highlight_variable_assignments = 1
-  let g:go_highlight_build_constraints = 1
-  let g:go_highlight_diagnostic_errors = 1
-  let g:go_highlight_diagnostic_warnings = 1
-  "let g:go_auto_type_info = 1 " forces 'Press ENTER' too much
-  let g:go_auto_sameids = 0
-  "    let g:go_metalinter_command='golangci-lint'
-  "    let g:go_metalinter_command='golint'
-  "    let g:go_metalinter_autosave=1
-  set updatetime=100
-  "let g:go_gopls_analyses = { 'composites' : v:false }
-  au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
-  au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
-
-  " fzf
-  " set rtp+=/opt/homebrew/opt/fzf
-  nnoremap <leader>ff :Files<CR>
-  nnoremap <leader>fg :GFiles<CR>
-  nnoremap <leared>fs :Rg! 
-
-  " color theme
-  colorscheme solarized8_flat
-  let g:airline_theme='solarized'
-
-  " vimwiki
-  let g:vimwiki_list = [{'path': '~/repos/zet', 'syntax': 'markdown', 'ext': '.md'}]
-
-    function! VimwikiLinkHandler(link)
-      if a:link =~# '^https\?:'
-        try
-          execute ':terminal lynx ' . a:link
-          return 1
-        catch
-          echo "Failed executing Lynx."
-        endtry
-      endif
-      return 0
-   endfunction
-
-else
-  autocmd vimleavepre *.go !gofmt -w % " backup if fatih fails
-endif
-
-"######################### UI  #########################################
-set background=dark
-set termguicolors
-set term=xterm-256color
-
 
 "######################### File Types ##################################
 
@@ -273,6 +188,66 @@ au bufnewfile,bufRead *.go set spell spellcapcheck=0
 au bufnewfile,bufRead commands.yaml set spell
 au bufnewfile,bufRead *.txt set spell
 
+" " base default color changes (gruvbox dark friendly)
+hi StatusLine ctermfg=black ctermbg=NONE
+hi StatusLineNC ctermfg=black ctermbg=NONE
+hi Normal ctermbg=NONE
+hi Special ctermfg=cyan
+hi LineNr ctermfg=black ctermbg=NONE
+hi SpecialKey ctermfg=black ctermbg=NONE
+hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
+hi MoreMsg ctermfg=black ctermbg=NONE
+hi NonText ctermfg=black ctermbg=NONE
+hi vimGlobal ctermfg=black ctermbg=NONE
+hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
+hi Error ctermbg=234 ctermfg=darkred cterm=NONE
+hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
+hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
+hi Search ctermbg=236 ctermfg=darkred
+hi vimTodo ctermbg=236 ctermfg=darkred
+hi Todo ctermbg=236 ctermfg=darkred
+hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
+hi MatchParen ctermbg=236 ctermfg=darkred
+
+hi pandocStrong ctermfg=red gui=bold
+
+" " color overrides
+au FileType * hi StatusLine ctermfg=black ctermbg=NONE
+au FileType * hi StatusLineNC ctermfg=black ctermbg=NONE
+au FileType * hi Normal ctermbg=NONE
+au FileType * hi Special ctermfg=cyan
+au FileType * hi LineNr ctermfg=black ctermbg=NONE
+au FileType * hi SpecialKey ctermfg=black ctermbg=NONE
+au FileType * hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
+au FileType * hi MoreMsg ctermfg=black ctermbg=NONE
+au FileType * hi NonText ctermfg=black ctermbg=NONE
+au FileType * hi vimGlobal ctermfg=black ctermbg=NONE
+au FileType * hi goComment ctermfg=black ctermbg=NONE
+au FileType * hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
+au FileType * hi Error ctermbg=234 ctermfg=darkred cterm=NONE
+au FileType * hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
+au FileType * hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
+au FileType * hi Search ctermbg=236 ctermfg=darkred
+au FileType * hi vimTodo ctermbg=236 ctermfg=darkred
+au FileType * hi Todo ctermbg=236 ctermfg=darkred
+au FileType * hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
+au FileType * hi MatchParen ctermbg=236 ctermfg=darkred
+au FileType markdown,pandoc hi Title ctermfg=red ctermbg=NONE
+au FileType markdown,pandoc hi Operator ctermfg=yellow ctermbg=NONE
+au FileType markdown,pandoc set tw=0
+au FileType markdown,pandoc set wrap
+au FileType yaml hi yamlBlockMappingKey ctermfg=NONE
+au FileType yaml set sw=2
+au FileType bash set sw=2
+au FileType c set sw=8
+au FileType markdown,pandoc noremap j gj
+au FileType markdown,pandoc noremap k gk
+au FileType sh set noet
+
+
+
+set cinoptions+=:0
+
 " format shell on save WARNING disabled. Not Working!
 if has("eval") " vim-tiny detection
 function! s:FormatShell()
@@ -286,4 +261,91 @@ endif
 
 " format
 "nnoremap <silent> <leader>f :call FormatShell()<cr>
+
+
+
+"######################### PLUGINS  #########################################
+
+if filereadable(expand("~/.vim/autoload/plug.vim"))
+
+  " github.com/junegunn/vim-plug
+
+  call plug#begin('~/.local/share/vim/plugins')
+    Plug 'morhetz/gruvbox'
+	Plug 'preservim/nerdtree'
+    Plug 'lifepillar/vim-solarized8'
+    Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+    " Plug 'vimwiki/vimwiki'
+    Plug 'vim-pandoc/vim-pandoc'
+    Plug 'rwxrob/vim-pandoc-syntax-simple'
+    " Plug 'vim-pandoc/vim-pandoc-syntax'
+    Plug 'dense-analysis/ale'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'junegunn/fzf.vim'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'tpope/vim-fugitive'
+  call plug#end()
+
+  " ALE linter
+  let g:ale_sign_error = '☠'
+  let g:ale_sign_warning = '🙄'
+  let g:ale_linters = {'go': ['gometalinter', 'gofmt','gobuild']}
+
+  " pandoc
+  let g:pandoc#formatting#mode = 'h' " A'
+  let g:pandoc#formatting#textwidth = 72
+  " Do not highlight spelling errors.
+  autocmd BufRead,BufNewFile *.md setlocal nospell
+
+
+
+  " golang
+  let g:go_fmt_fail_silently = 0
+  let g:go_fmt_command = 'goimports'
+  let g:go_fmt_autosave = 1
+  let g:go_gopls_enabled = 1
+  let g:go_highlight_types = 1
+  let g:go_highlight_fields = 1
+  let g:go_highlight_functions = 1
+  let g:go_highlight_function_calls = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_extra_types = 1
+  let g:go_highlight_variable_declarations = 1
+  let g:go_highlight_variable_assignments = 1
+  let g:go_highlight_build_constraints = 1
+  let g:go_highlight_diagnostic_errors = 1
+  let g:go_highlight_diagnostic_warnings = 1
+  "let g:go_auto_type_info = 1 " forces 'Press ENTER' too much
+  let g:go_auto_sameids = 0
+  "    let g:go_metalinter_command='golangci-lint'
+  "    let g:go_metalinter_command='golint'
+  "    let g:go_metalinter_autosave=1
+  set updatetime=100
+  "let g:go_gopls_analyses = { 'composites' : v:false }
+  au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
+  au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
+
+  " fzf
+  " set rtp+=/opt/homebrew/opt/fzf
+  nnoremap <leader>ff :Files<CR>
+  nnoremap <leader>fg :GFiles<CR>
+  nnoremap <leader>fs :Rg!
+
+  " color theme
+  colorscheme solarized8_flat
+  let g:airline_theme='solarized'
+
+  " Nerdtree
+  nmap <F4> :NERDTreeToggle<CR>
+else
+  autocmd vimleavepre *.go !gofmt -w % " backup if fatih fails
+endif
+
+"######################### UI  #########################################
+set background=dark
+set termguicolors
+set term=xterm-256color
+
+
 
