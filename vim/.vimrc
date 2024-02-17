@@ -160,90 +160,17 @@ set fo+=M   " don't add space before or after multi-byte char
 set fo-=B   " don't add space between two multi-byte chars
 set fo+=1   " don't break a line after a one-letter word
 
-" force some files to be specific file type
-au bufnewfile,bufRead $SNIPPETS/md/* set ft=pandoc
-au bufnewfile,bufRead $SNIPPETS/sh/* set ft=sh
-au bufnewfile,bufRead $SNIPPETS/bash/* set ft=bash
-au bufnewfile,bufRead $SNIPPETS/go/* set ft=go
-au bufnewfile,bufRead $SNIPPETS/c/* set ft=c
-au bufnewfile,bufRead $SNIPPETS/html/* set ft=html
-au bufnewfile,bufRead $SNIPPETS/css/* set ft=css
-au bufnewfile,bufRead $SNIPPETS/js/* set ft=javascript
-au bufnewfile,bufRead $SNIPPETS/python/* set ft=python
-au bufnewfile,bufRead $SNIPPETS/perl/* set ft=perl
-au bufnewfile,bufRead user-data set ft=yaml
-au bufnewfile,bufRead meta-data set ft=yaml
-au bufnewfile,bufRead *.ddl set ft=sql
-au bufnewfile,bufRead keg set ft=yaml
-au bufnewfile,bufRead *.bash* set ft=bash
-au bufnewfile,bufRead *.{peg,pegn} set ft=config
-au bufnewfile,bufRead *.gotmpl set ft=go
-au bufnewfile,bufRead *.profile set filetype=sh
-au bufnewfile,bufRead *.crontab set filetype=crontab
-au bufnewfile,bufRead *ssh/config set filetype=sshconfig
-au bufnewfile,bufRead .dockerignore set filetype=gitignore
-au bufnewfile,bufRead *gitconfig set filetype=gitconfig
-au bufnewfile,bufRead /tmp/psql.edit.* set syntax=sql
-au bufnewfile,bufRead *.go set spell spellcapcheck=0
-au bufnewfile,bufRead commands.yaml set spell
-au bufnewfile,bufRead *.txt set spell
+" Markdown better highlighting
+hi link markdownH1 markdownHxBold
+hi link markdownH2 markdownHxBold
+hi markdownHxBold  term=bold ctermfg=DarkMagenta gui=bold guifg=Magenta cterm=bold
 
-" " base default color changes (gruvbox dark friendly)
-hi StatusLine ctermfg=black ctermbg=NONE
-hi StatusLineNC ctermfg=black ctermbg=NONE
-hi Normal ctermbg=NONE
-hi Special ctermfg=cyan
-hi LineNr ctermfg=black ctermbg=NONE
-hi SpecialKey ctermfg=black ctermbg=NONE
-hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
-hi MoreMsg ctermfg=black ctermbg=NONE
-hi NonText ctermfg=black ctermbg=NONE
-hi vimGlobal ctermfg=black ctermbg=NONE
-hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
-hi Error ctermbg=234 ctermfg=darkred cterm=NONE
-hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
-hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
-hi Search ctermbg=236 ctermfg=darkred
-hi vimTodo ctermbg=236 ctermfg=darkred
-hi Todo ctermbg=236 ctermfg=darkred
-hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
-hi MatchParen ctermbg=236 ctermfg=darkred
 
-hi pandocStrong ctermfg=red gui=bold
-
-" " color overrides
-au FileType * hi StatusLine ctermfg=black ctermbg=NONE
-au FileType * hi StatusLineNC ctermfg=black ctermbg=NONE
-au FileType * hi Normal ctermbg=NONE
-au FileType * hi Special ctermfg=cyan
-au FileType * hi LineNr ctermfg=black ctermbg=NONE
-au FileType * hi SpecialKey ctermfg=black ctermbg=NONE
-au FileType * hi ModeMsg ctermfg=black cterm=NONE ctermbg=NONE
-au FileType * hi MoreMsg ctermfg=black ctermbg=NONE
-au FileType * hi NonText ctermfg=black ctermbg=NONE
-au FileType * hi vimGlobal ctermfg=black ctermbg=NONE
-au FileType * hi goComment ctermfg=black ctermbg=NONE
-au FileType * hi ErrorMsg ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi Error ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi SpellBad ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi SpellRare ctermbg=234 ctermfg=darkred cterm=NONE
-au FileType * hi Search ctermbg=236 ctermfg=darkred
-au FileType * hi vimTodo ctermbg=236 ctermfg=darkred
-au FileType * hi Todo ctermbg=236 ctermfg=darkred
-au FileType * hi IncSearch ctermbg=236 cterm=NONE ctermfg=darkred
-au FileType * hi MatchParen ctermbg=236 ctermfg=darkred
-au FileType markdown,pandoc hi Title ctermfg=red ctermbg=NONE
-au FileType markdown,pandoc hi Operator ctermfg=yellow ctermbg=NONE
-au FileType markdown,pandoc set tw=0
-au FileType markdown,pandoc set wrap
-au FileType yaml hi yamlBlockMappingKey ctermfg=NONE
+" set indentation for filetypes
 au FileType yaml set sw=2
-au FileType bash set sw=2
-au FileType c set sw=8
-au FileType markdown,pandoc noremap j gj
-au FileType markdown,pandoc noremap k gk
-au FileType sh set noet
-
+au FileType bash set sw=4
+au FileType c set sw=4
+au FileType go set sw=4
 
 
 set cinoptions+=:0
@@ -272,13 +199,11 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
   call plug#begin('~/.local/share/vim/plugins')
     Plug 'morhetz/gruvbox'
+    Plug 'gabrielelana/vim-markdown'
 	Plug 'preservim/nerdtree'
     Plug 'lifepillar/vim-solarized8'
     Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-    " Plug 'vimwiki/vimwiki'
-    Plug 'vim-pandoc/vim-pandoc'
-    Plug 'rwxrob/vim-pandoc-syntax-simple'
-    " Plug 'vim-pandoc/vim-pandoc-syntax'
+    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     Plug 'dense-analysis/ale'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
@@ -291,14 +216,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   let g:ale_sign_error = '☠'
   let g:ale_sign_warning = '🙄'
   let g:ale_linters = {'go': ['gometalinter', 'gofmt','gobuild']}
-
-  " pandoc
-  let g:pandoc#formatting#mode = 'h' " A'
-  let g:pandoc#formatting#textwidth = 72
-  " Do not highlight spelling errors.
-  autocmd BufRead,BufNewFile *.md setlocal nospell
-
-
 
   " golang
   let g:go_fmt_fail_silently = 0
@@ -338,6 +255,11 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
   " Nerdtree
   nmap <F4> :NERDTreeToggle<CR>
+
+  " Markdown preview
+"   nmap <C-p> <Plug>MarkdownPreviewToggle
+  nmap <F3> <Plug>MarkdownPreviewToggle
+"   let g:mkdp_browser = '$HOME/.local/bin/lynx'
 else
   autocmd vimleavepre *.go !gofmt -w % " backup if fatih fails
 endif

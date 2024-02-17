@@ -1,65 +1,72 @@
 #!/bin/bash
 
-# A bash script that helps me create notes in my second brain
-# based on my "blog" script
-# TODO
-# 1. check if file already exists
-# 2. Allow only one word or dash separated filenames as an input. 
+# A bash script that helps create notes in my zettelkasten folder
 
-# function to prompt the user for a filename
+# prompt the user for a filename
 get_filename() {
-	read -p "Enter a filename: " filename
-    echo $filename
+	filename=$1
+
+	# check if filename is valid (one word or dash-separated, no .md
+	#  extension)
+	if [[ ! $filename =~ ^[A-Za-z0-9_-]+$ ]]; then
+		echo "Invalid filename. Use only letters, numbers, underscores or dashes."
+		exit 1
+	fi
+
+	# check if file already exists
+	if [[ -f "$PKM/inbox/$filename.md" ]]; then
+		echo "File '$filename.md' already exists. Choose a different
+  name."
+		exit 1
+	fi
+
+	echo $filename
 }
 
-# function to create and open a file in the specified directory
+# create and open a file in the specified directory
 open_file() {
-	# Cd into the directory
-	cd "$1" || exit
-    # create unique identifier 
-    timestamp="$(date +"%Y%m%d%H%M%S")"
-    # Create the file in the specified directory
-    touch "$1/$filename.md"
-    # Remove the dashes and capitalize all words
+	dir=$1
+	# create unique identifier
+	timestamp=$(date +"%Y%m%d%H%M%S")
+	# Create the file in the specified directory
+	touch "$dir/$filename.md"
+	# Remove the dashes and capitalize all words
 	title=$( echo "$filename" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) substr($i,2)}}1' )
 
 	# format the file
 	{
 		echo "# $title"
 		echo -en "\n"
-        echo "---"
-        echo -en "\n"
-        echo "tags:: "
-        echo -en "\n"
-        echo "---"
-        echo -en "\n"
-        echo -en "\n"
-        echo -en "\n"
-        echo -en "\n"
+		echo "---"
+		echo -en "\n"
+		echo "tags:: "
+		echo -en "\n"
+		echo "---"
+		echo -en "\n"
+		echo -en "\n"
+		echo -en "\n"
+		echo -en "\n"
 		echo "Links:"
 		echo -en "\n"
 		echo "$timestamp"
-	} >>"$1/$filename.md"
+	} >>"$dir/$filename.md"
 
 	# Open the file in Vim
-	vim '+ normal 4jA' "$1/$filename.md" 
+	vim '+ normal 4jA' "$dir/$filename.md"
 }
 
-# Prompt the user if no filename is provided
-if [[ $# -eq 0 ]]; then
-	filename=$(get_filename)
-fi
-
-# if more than one argument is given, print error message and stop script
-if [[ $# -gt 1 ]]; then
-	echo "Please provide only one filename separated by dashes, without .md extension."
+# check argument count
+case $# in
+0) filename=$(get_filename) ;; # No argument, prompt for filename
+1)                             # One argument (filename), validate it
+	filename=$1
+	get_filename $filename
+	;;
+*) # More than one argument, print error
+	echo "Provide only one filename separated by dashes, without .md extension."
 	echo "Example: zet my-new-note"
 	exit 1
-fi
-
-# set filename to the argument given to the script
-if [[ $# -eq 1 ]]; then
-	filename=$1
-fi
+	;;
+esac
 
 open_file "$PKM/inbox"
