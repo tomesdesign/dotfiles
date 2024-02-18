@@ -2,8 +2,18 @@
 
 # A bash script that helps create notes in my zettelkasten folder
 
+
+
 # prompt the user for a filename
 get_filename() {
+    # if more than one argument is given, print error message and stop script
+    # TODO: remove redundancy of error messages.
+    if [[ $# -gt 1 ]]; then
+        echo "Please provide only one filename separated by dashes, without .md extension."
+        echo "Example: zet my-new-note"
+        exit 1
+    fi
+
 	filename=$1
 
 	# check if filename is valid (one word or dash-separated, no .md
@@ -15,8 +25,7 @@ get_filename() {
 
 	# check if file already exists
 	if [[ -f "$PKM/inbox/$filename.md" ]]; then
-		echo "File '$filename.md' already exists. Choose a different
-  name."
+		echo "File '$filename.md' already exists. Choose a different name."
 		exit 1
 	fi
 
@@ -57,16 +66,18 @@ open_file() {
 
 # check argument count
 case $# in
-0) filename=$(get_filename) ;; # No argument, prompt for filename
-1)                             # One argument (filename), validate it
-	filename=$1
-	get_filename $filename
-	;;
-*) # More than one argument, print error
-	echo "Provide only one filename separated by dashes, without .md extension."
-	echo "Example: zet my-new-note"
-	exit 1
-	;;
+    0)  # No argument, prompt for filename
+        read -p "Enter a filename: " filename 
+        get_filename $filename
+        ;; 
+    1)  # One argument (filename), process it
+        get_filename $1
+        ;;
+    *) # More than one argument, print error
+        echo "Provide only one filename separated by dashes, without .md extension."
+        echo "Example: zet my-new-note"
+        exit 1
+        ;;
 esac
 
 open_file "$PKM/inbox"
