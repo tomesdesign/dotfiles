@@ -109,6 +109,7 @@ let g:netrw_winsize = 25
 
 
 "######################### Keymaps  #########################################
+" I want to stick with the default vi as much as possible
 
 " Disable Arrow keys in normal mode 
 noremap <up> :echoerr "Umm, use k instead"<CR>
@@ -142,10 +143,10 @@ nnoremap / /\c
 " modern simplified pandoc for capturing knowledge source instead of
 " arbitrary raw text files.
 
-set fo-=t   " don't auto-wrap text using text width
+" set fo-=t   " don't auto-wrap text using text width
 set fo+=c   " autowrap comments using textwidth with leader
 set fo-=r   " don't auto-insert comment leader on enter in insert
-set fo-=o   " don't auto-insert comment leader on o/O in normal
+set formatoptions-=o   " don't auto-insert comment leader on o/O in normal
 set fo+=q   " allow formatting of comments with gq
 set fo-=w   " don't use trailing whitespace for paragraphs
 set fo-=a   " disable auto-formatting of paragraph changes
@@ -198,6 +199,7 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   " github.com/junegunn/vim-plug
 
   call plug#begin('~/.local/share/vim/plugins')
+    Plug 'overcache/NeoSolarized'
     Plug 'morhetz/gruvbox'
     Plug 'gabrielelana/vim-markdown'
 	Plug 'preservim/nerdtree'
@@ -250,7 +252,8 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   nnoremap <leader>fs :Rg!
 
   " color theme
-  colorscheme solarized8_flat
+"   colorscheme solarized8_flat
+  colorscheme NeoSolarized
   let g:airline_theme='solarized'
 
   " Nerdtree

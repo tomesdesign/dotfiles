@@ -29,7 +29,6 @@ export HISTSIZE=25000
 export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
-
 export PKM="$HOME/repos/zet"
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -46,25 +45,25 @@ alias rss="newsboat -r"
 alias '?'="duck"
 alias '??'="gpt"
 alias mutt="neomutt"
-
-
+alias python="python3"
+alias draspi="docker exec -it -u admin -w /home/admin raspios /bin/bash"
 
 # ~~~~~~~~~~~~~~~ Functions ~~~~~~~~~~~~~~~~~~~~~~~~
 # CTRL+R shows fuzzy history
 fzf_history() {
-  selected_command=$(history | fzf --tac | sed 's/^ *[0-9]* //')
-  if [[ -n "$selected_command" ]]; then
-    printf "%s\n" "$selected_command"
-    # Set a timeout for Enter key press (adjust as needed)
-    read -t 2 -n 1 key
-    # If Enter key was pressed (key is empty), execute the command
-    if [[ -z "$key" ]]; then
-      bash -c "$selected_command"
-    fi
-  fi
+	selected_command=$(history | fzf --tac | sed 's/^ *[0-9]* //')
+	if [[ -n "$selected_command" ]]; then
+		printf "%s\n" "$selected_command"
+		# Set a timeout for Enter key press (adjust as needed)
+		read -t 2 -n 1 key
+		# If Enter key was pressed (key is empty), execute the command
+		if [[ -z "$key" ]]; then
+			bash -c "$selected_command"
+		fi
+	fi
 }
 
-builtin set -o histexpand;
-builtin bind -x '"\C-x1": fzf_history';
+builtin set -o histexpand
+builtin bind -x '"\C-x1": fzf_history'
 builtin bind '"\C-r": "\C-x1\e^\er"'
 set t_ut=
