@@ -78,7 +78,7 @@ if has("syntax")
   syntax enable
 endif
 
-" Internal plugins are ok :)
+" " Internal plugins are ok :)
 filetype plugin on
 
 "" FILES HANDLING
@@ -166,6 +166,18 @@ hi link markdownH1 markdownHxBold
 hi link markdownH2 markdownHxBold
 hi markdownHxBold  term=bold ctermfg=DarkMagenta gui=bold guifg=Magenta cterm=bold
 
+" C settings
+augroup project
+  autocmd!
+  autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
+augroup END
+
+" Look for incluide header files
+let &path.="src/include,/usr/include/AL,"
+
+" Set c build settings
+set makeprg=make\ -C\ ../build\ -j9
+nnoremap <F2> :make!<cr>
 
 " set indentation for filetypes
 au FileType yaml set sw=2
@@ -176,7 +188,7 @@ au FileType go set sw=4
 
 set cinoptions+=:0
 
-" format shell on save WARNING disabled. Not Working!
+" format shell on save 
 if has("eval") " vim-tiny detection
 function! s:FormatShell()
     " Saving window view to restore it after running the command
@@ -187,12 +199,11 @@ endfunction
 autocmd FileType sh autocmd BufWritePre <buffer> call s:FormatShell()
 endif
 
-" format
-"nnoremap <silent> <leader>f :call FormatShell()<cr>
+nnoremap <silent> <leader>f :call FormatShell()<cr>
 
 
 
-"######################### PLUGINS  #########################################
+" ######################### PLUGINS  #################################
 
 if filereadable(expand("~/.vim/autoload/plug.vim"))
 
@@ -200,12 +211,9 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
   call plug#begin('~/.local/share/vim/plugins')
     Plug 'overcache/NeoSolarized'
-    Plug 'morhetz/gruvbox'
     Plug 'gabrielelana/vim-markdown'
 	Plug 'preservim/nerdtree'
     Plug 'lifepillar/vim-solarized8'
-    Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-    Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
     Plug 'dense-analysis/ale'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
@@ -218,32 +226,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   let g:ale_sign_error = '☠'
   let g:ale_sign_warning = '🙄'
   let g:ale_linters = {'go': ['gometalinter', 'gofmt','gobuild']}
-
-  " golang
-  let g:go_fmt_fail_silently = 0
-  let g:go_fmt_command = 'goimports'
-  let g:go_fmt_autosave = 1
-  let g:go_gopls_enabled = 1
-  let g:go_highlight_types = 1
-  let g:go_highlight_fields = 1
-  let g:go_highlight_functions = 1
-  let g:go_highlight_function_calls = 1
-  let g:go_highlight_operators = 1
-  let g:go_highlight_extra_types = 1
-  let g:go_highlight_variable_declarations = 1
-  let g:go_highlight_variable_assignments = 1
-  let g:go_highlight_build_constraints = 1
-  let g:go_highlight_diagnostic_errors = 1
-  let g:go_highlight_diagnostic_warnings = 1
-  "let g:go_auto_type_info = 1 " forces 'Press ENTER' too much
-  let g:go_auto_sameids = 0
-  "    let g:go_metalinter_command='golangci-lint'
-  "    let g:go_metalinter_command='golint'
-  "    let g:go_metalinter_autosave=1
-  set updatetime=100
-  "let g:go_gopls_analyses = { 'composites' : v:false }
-  au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
-  au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
 
   " fzf
   " set rtp+=/opt/homebrew/opt/fzf
@@ -263,14 +245,9 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 "   nmap <C-p> <Plug>MarkdownPreviewToggle
   nmap <F3> <Plug>MarkdownPreviewToggle
 "   let g:mkdp_browser = '$HOME/.local/bin/lynx'
-else
-  autocmd vimleavepre *.go !gofmt -w % " backup if fatih fails
 endif
 
-"######################### UI  #########################################
+"######################### UI  ##################################
 set background=dark
 set termguicolors
 set term=xterm-256color
-
-
-
