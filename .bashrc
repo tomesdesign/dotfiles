@@ -48,12 +48,15 @@ alias '??'="gpt"
 alias mutt="neomutt"
 alias python="python3"
 alias draspi="docker exec -it -u admin -w /home/admin raspios /bin/bash"
+alias hh="history | fzf +s --tac"
 
 # ~~~~~~~~~~~~~~~ Functions ~~~~~~~~~~~~~~~~~~~~~~~~
 # CTRL+R shows fuzzy history
 fzf_history() {
-	selected_command=$(history | fzf --tac | sed 's/^ *[0-9]* //')
+    trap 'echo "CTRL+C pressed. Exiting fzf_history."; return' SIGINT
+	selected_command=$(history | fzf --tac | sed 's/^ *[0-9]*//')
 	if [[ -n "$selected_command" ]]; then
+        selected_command=$(echo "$selected_command" | xargs)
 		printf "%s\n" "$selected_command"
 		# Set a timeout for Enter key press (adjust as needed)
 		read -t 2 -n 1 key
@@ -62,9 +65,10 @@ fzf_history() {
 			bash -c "$selected_command"
 		fi
 	fi
+    trap - SIGINT
 }
 
 builtin set -o histexpand
 builtin bind -x '"\C-x1": fzf_history'
-builtin bind '"\C-r": "\C-x1\e^\er"'
+builtin bind '"\C-r": "\C-x1"'
 set t_ut=
