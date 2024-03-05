@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -o errexit
+set -o xtrace
+set -o nounset
+
+FILE=$(fd --type f --strip-cwd-prefix --hidden --follow --exclude .git | fzf --exact) || exit
+
+vim "$FILE"

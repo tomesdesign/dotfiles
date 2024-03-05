@@ -30,6 +30,7 @@ export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
 export PKM="$HOME/repos/zet"
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
 alias vi="nvi"

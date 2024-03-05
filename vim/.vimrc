@@ -169,7 +169,7 @@ hi markdownHxBold  term=bold ctermfg=DarkMagenta gui=bold guifg=Magenta cterm=bo
 " C settings
 augroup project
   autocmd!
-  autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
+  autocmd BufRead,BufNewFile *.h,*.c set filetype=c
 augroup END
 
 " Look for incluide header files
@@ -225,7 +225,13 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   " ALE linter
   let g:ale_sign_error = '☠'
   let g:ale_sign_warning = '🙄'
-  let g:ale_linters = {'go': ['gometalinter', 'gofmt','gobuild']}
+  let g:ale_linters = {'c': ['ccls']}
+  let g:ale_completion_enabled = 1
+  let g:ale_lint_on_enter = 0
+  let g:ale_lint_on_text_changed = 'never'
+  let g:ale_lint_on_insert_leave = 1
+  let g:ale_lint_on_save = 1
+  set omnifunc=ale#completion#OmniFunc
 
   " fzf
   " set rtp+=/opt/homebrew/opt/fzf

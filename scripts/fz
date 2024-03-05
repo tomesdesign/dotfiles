@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -o errexit
+set -o xtrace
+set -o nounset
+
+FILE=$(fd --type f --hidden --follow --exclude .git '' $HOME/repos/zet/ | fzf) || exit
+
+vim "$FILE"
