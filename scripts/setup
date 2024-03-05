@@ -8,3 +8,4 @@ ln -sf $PWD/rss $HOME/.local/bin/rss
 ln -sf $PWD/urlencode $HOME/.local/bin/urlencode
 ln -sf $PWD/zet $HOME/.local/bin/zet
 ln -sf $PWD/ff $HOME/.local/bin/ff
+ln -sf $PWD/fz $HOME/.local/bin/fz
