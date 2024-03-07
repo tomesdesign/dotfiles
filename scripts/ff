@@ -1,9 +1,22 @@
 #!/bin/bash
+#
+# Finds files in a current directory and opens in VIM.
+# Opening in home folder (or another big directory) causes performance
+# issues.
+#
+# TODO: Exclude more so that it could be used in big directories
 
 set -o errexit
 set -o xtrace
 set -o nounset
 
-FILE=$(fd --type f --strip-cwd-prefix --hidden --follow --exclude .git | fzf --exact) || exit
+DIR="."
+
+if [ $# -eq 1 ]; then
+	echo "$1"
+	DIR=$1
+fi
+
+FILE=$(fd --type f --hidden --follow '' $DIR | fzf --exact) || exit
 
 vim "$FILE"

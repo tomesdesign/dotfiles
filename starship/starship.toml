@@ -1,47 +1,33 @@
-# [gcloud]
-# detect_env_vars = ["CLOUDSDK_CONFIG"]
-# format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
-
-# [nodejs]
-# disabled = true
-
-# [package]
-# disabled = true
-
-# [shell]
-# disabled = false
-
-# [golang]
-# disabled = true
-
 add_newline = true
-# A minimal left prompt
-format = """$directory$character"""
 palette = "catppuccin_mocha"
-# move the rest of the prompt to the right
-right_format = """$all"""
 
-[directory.substitutions]
-'~/tests/starship-custom' = 'work-project'
+[directory]
+truncation_length = 2
+truncation_symbol = '…/'
 
+[gcloud]
+detect_env_vars = ["CLOUDSDK_CONFIG"]
+format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
 
-[aws]
-format = 'on [$symbol($profile )(\($region\) )]($style)'
-style = 'bold blue'
-symbol = "  "
+[python]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[shell]
+disabled = false
 
 [golang]
-format = '[ ](bold cyan)'
+disabled = true
 
-[kubernetes]
-symbol = '☸ '
-disabled = false
-detect_files = ['Dockerfile']
-format = '[$context(\[$namespace\])]($style) '
-[kubernetes.context_aliases]
-'arn:aws:eks:us-west-2:577926974532:cluster/gal-kub-demo-cluster' = 'gal'
+[c]
+disabled = true
 
-[docker_context]
+[cmake]
 disabled = true
 
 [palettes.catppuccin_mocha]

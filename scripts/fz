@@ -1,4 +1,6 @@
 #!/bin/bash
+#
+# Finds files in my ZET directory and opens in VIM
 
 set -o errexit
 set -o xtrace
