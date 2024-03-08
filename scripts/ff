@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Finds files in a current directory and opens in VIM.
 # Opening in home folder (or another big directory) causes performance
@@ -7,16 +7,18 @@
 # TODO: Exclude more so that it could be used in big directories
 
 set -o errexit
-set -o xtrace
+#set -o xtrace
 set -o nounset
 
 DIR="."
+FZF_OPTS=(--preview 'bat --color=always {}')
+FD_OPTS=(--type f --hidden --follow '')
 
 if [ $# -eq 1 ]; then
 	echo "$1"
 	DIR=$1
 fi
 
-FILE=$(fd --type f --hidden --follow '' $DIR | fzf --exact) || exit
+FILE=$(fd "${FD_OPTS[@]}" "$DIR" | fzf "${FZF_OPTS[@]}") || exit
 
 vim "$FILE"

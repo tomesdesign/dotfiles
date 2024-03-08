@@ -1,0 +1,22 @@
+# Usage: fs [directory] [search term]
+# Example: fs . "algo"
+# If only one argument is provided, it is considered as the search term and the current directory is used.
+
+DIR="${1:-.}" # Default directory is the current directory if not provided
+SEARCH_TERM="${2:-}"
+
+# Check if only one argument is provided and it is not a directory
+if [[ $# -eq 1 && ! -d "$1" ]]; then
+	SEARCH_TERM="$1"
+	DIR="."
+fi
+
+# 1. Search for text in files using Ripgrep
+# 2. Interactively narrow down the list using fzf
+# 3. Open the file in Vim
+rg --color=always --line-number --no-heading --smart-case "$SEARCH_TERM" "$DIR" |
+	fzf --ansi \
+		--color "hl:-1:underline,hl+:-1:underline:reverse" \
+		--delimiter : \
+		--preview 'bat --color=always {1} --highlight-line {2}' \
+		--bind 'enter:become(vim {1} +{2})'
