@@ -1,19 +1,24 @@
 #!/bin/bash
 
-# A bash script that helps create notes in my zettelkasten folder
+# A bash script that helps managing notes in my zettelkasten folder
 
+set -E
+trap '[ "$?" -ne 0 ] && echo "Error on line $LINENO" >&2' ERR
 
+if [ $# -ne 2 ]; then
+	echo "Usage: zet action filename"
+	echo "Please provide only one filename separated by dashes, without .md extension."
+	echo "Example: zet new my-new-note"
 
-# prompt the user for a filename
-get_filename() {
-    # if more than one argument is given, print error message and stop script
-    # TODO: remove redundancy of error messages.
-    if [[ $# -gt 1 ]]; then
-        echo "Please provide only one filename separated by dashes, without .md extension."
-        echo "Example: zet my-new-note"
-        exit 1
-    fi
+	exit 1
+fi
 
+action=$1
+file=$2
+
+# create and open a file in the specified directory
+create_file() {
+	dir="$PKM/+"
 	filename=$1
 
 	# check if filename is valid (one word or dash-separated, no .md
@@ -24,23 +29,16 @@ get_filename() {
 	fi
 
 	# check if file already exists
-	if [[ -f "$PKM/inbox/$filename.md" ]]; then
+	if [[ -f "$PKM/+/$filename.md" ]]; then
 		echo "File '$filename.md' already exists. Choose a different name."
 		exit 1
 	fi
-
-	echo $filename
-}
-
-# create and open a file in the specified directory
-open_file() {
-	dir=$1
 	# create unique identifier
 	timestamp=$(date +"%Y%m%d%H%M%S")
 	# Create the file in the specified directory
 	touch "$dir/$filename.md"
 	# Remove the dashes and capitalize all words
-	title=$( echo "$filename" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) substr($i,2)}}1' )
+	title=$(echo "$filename" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1)) substr($i,2)}}1')
 
 	# format the file
 	{
@@ -64,20 +62,39 @@ open_file() {
 	vim '+ normal 4jA' "$dir/$filename.md"
 }
 
-# check argument count
-case $# in
-    0)  # No argument, prompt for filename
-        read -p "Enter a filename: " filename 
-        get_filename $filename
-        ;; 
-    1)  # One argument (filename), process it
-        get_filename $1
-        ;;
-    *) # More than one argument, print error
-        echo "Provide only one filename separated by dashes, without .md extension."
-        echo "Example: zet my-new-note"
-        exit 1
-        ;;
+case "$action" in
+new)
+	if create_file "$file"; then
+		echo "File $file created successfully!"
+	else
+		echo "Error creating file $file!"
+	fi
+	;;
+delete)
+	if rm "$file"; then
+		echo "File $file deleted successfully!"
+	else
+		echo "Error deleting file $file!"
+	fi
+	;;
+*)
+	echo "Unknown action: ${action}"
+	exit 2
+	;;
 esac
 
-open_file "$PKM/inbox"
+# check argument count
+#case $# in
+#    0)  # No argument, prompt for filename
+#        read -p "Enter a filename: " filename
+#        get_filename $filename
+#        ;;
+#    1)  # One argument (filename), process it
+#        get_filename $1
+#        ;;
+#    *) # More than one argument, print error
+#        echo "Provide only one filename separated by dashes, without .md extension."
+#        echo "Example: zet my-new-note"
+#        exit 1
+#        ;;
+#esac

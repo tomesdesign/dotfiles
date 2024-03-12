@@ -8,12 +8,12 @@
 # https://github.com/mischavandenburg/dotfiles/blob/main/setup
 
 # Create directories
-mkdir -p $HOME/.config/alacritty
+mkdir -p $HOME/.config/alacritty/themes
 mkdir -p $HOME/.config/starship
-
 
 # Symbolic links
 ln -sf $PWD/alacritty/alacritty.toml $HOME/.config/alacritty/alacritty.toml
+ln -sf $PWD/alacritty/themes/warlock.toml $HOME/.config/alacritty/themes/warlock.toml
 ln -sf $PWD/.bash_profile $HOME/.bash_profile
 ln -sf $PWD/.bashrc $HOME/.bashrc
 ln -sf $PWD/tmux/.tmux.conf $HOME/.tmux.conf

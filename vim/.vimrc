@@ -10,24 +10,22 @@ set nocompatible
 let mapleader=" "
 
 " Use this clorscheme as default without plugins
-color retrobox
+color habamax
 
-"########################### PLUGINS ####################################
+"########################### PLUGINS ###################################
 
 if filereadable(expand("~/.vim/autoload/plug.vim"))
-
-    " github.com/junegunn/vim-plug
-
     call plug#begin('~/.local/share/vim/plugins')
-        Plug 'gabrielelana/vim-markdown'
-        Plug 'itchyny/lightline.vim'
-       " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-       " Plug 'junegunn/fzf.vim'
-        Plug 'tpope/vim-fugitive'
+        "Plug 'itchyny/lightline.vim'
+        Plug 'hardselius/warlock'
         Plug 'dense-analysis/ale'
-        Plug 'catppuccin/vim'
-        Plug 'airblade/vim-gitgutter'
     call plug#end()
+
+    " pandoc
+    "let g:pandoc#modules#disabled = ["formatting", "folding", "bibliographies", "completion",
+    "            \  "metadata", "menu", "executors", "keyboard", "toc", "spell", "hypertext"]
+    let g:pandoc#modules#enabled = []
+    let g:pandoc#filetypes#pandoc_markdown = 0
 
     " ALE
     let g:ale_sign_error = '☠'
@@ -47,38 +45,12 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     
     set omnifunc=ale#completion#OmniFunc
 
-    " fzf
-    " leader key
-   " nnoremap <leader>ff :Files<CR>
-   " nnoremap <leader>fg :GFiles<CR>
-   " nnoremap <leader>fs :Rg!
-
-    " catppuccin
-    colorscheme catppuccin_macchiato
-
-    " Lightline
-    set laststatus=2
-    let g:lightline = {
-      \ 'colorscheme': 'catppuccin_macchiato',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
-
-    " Markdown
-    let g:markdown_enable_spell_checking = 0
-
-    " Markdown preview
-    "   nmap <C-p> <Plug>MarkdownPreviewToggle
-    " nmap <F3> <Plug>MarkdownPreviewToggle
-    "   let g:mkdp_browser = '$HOME/.local/bin/lynx'
+    " warlock
+    colorscheme warlock
+    let g:lightline = { 'colorscheme': 'Tomorrow_Night'}
 endif
 
-"####################### Vi Compatible (~/.exrc) ########################
+"####################### Vi Compatible (~/.exrc) #######################
 " Copy this settings into ~/.exrc on a system where VIM is not available
 
 " number of spaces to replace a tab with
@@ -110,12 +82,14 @@ set showmode
 " set autoindent cedit=
 
 
-"########################### General  ###################################
+"########################### General  ##################################
 
 " automatically indent new lines
 set autoindent " (alpine)
 
 " set noflash " (alpine-ish only) 
+
+set nofoldenable    " disable folding
 
 " replace tabs with spaces automatically
 set expandtab " (alpine)
@@ -150,7 +124,7 @@ augroup NoAutoComment
   au FileType * setlocal formatoptions-=cro
 augroup end
 
-"########################## Keymaps  ####################################
+"########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
 
 " Disable Arrow keys in normal mode 
@@ -164,6 +138,15 @@ inoremap <up> <NOP>
 inoremap <down> <NOP>
 inoremap <left> <NOP>
 inoremap <right> <NOP>
+
+" use :f instead of :find
+cabbrev f find
+
+" Find files in path
+nnoremap <leader>ff :find<space>
+
+" Find strings in files in path
+nnoremap <leader>fs :grep<space>
 
 " Better autocompletion trigger
 imap <tab><tab> <c-x><c-o>
@@ -181,7 +164,14 @@ au FileType c set sw=4
 
 set cinoptions+=:0
 
-"############################# UI  ######################################
+" Quickfix traversing
+nnoremap <C-j> :cn<CR>
+nnoremap <C-k> :cp<CR>
+nnoremap <C-\> :cope<CR>
+nnoremap <C-[> :ccl<CR>
+
+
+"############################# UI  #####################################
 
 if has("syntax")
     syntax enable
@@ -190,7 +180,21 @@ endif
 set background=dark
 set termguicolors
 
-"##################### Do things without plugins ########################
+" statusline
+hi StatusLine ctermfg=black ctermbg=NONE
+hi StatusLineNC ctermfg=black ctermbg=NONE
+
+" Status line left side.
+set statusline+=\ %t\ %M\ %Y\ %R
+
+" Use a divider to separate the left side from the right side.
+set statusline+=%=
+
+" Status line right side.
+set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
+
+set laststatus=2
+"##################### Do things without plugins #######################
 
 " " Internal plugins are ok :)
 filetype plugin on
@@ -206,30 +210,32 @@ set wildmenu  " display all matching files when tab complete
 " netrw files browsing. use :edit .
 let g:netrw_banner=0 " disable banner
 let g:netrw_liststyle=3 " tree view
-"let g:netrw_browse_split=2 " open in prior window
-"let g:netrw_altv=3 " open splits to the right
-let g:netrw_browse_split = 2
-let g:netrw_altv = 1
-let g:netrw_winsize = 25
 
 " format shell on save 
-if has("eval") " vim-tiny detection
+if executable("shfmt")
     function! s:FormatShell()
         " Saving window view to restore it after running the command
-        let l:winview=winsaveview()
-        silent execute "%!shfmt"
-        silent call winrestview(winview)
-    endfunction
-    autocmd FileType sh autocmd BufWritePre <buffer> call s:FormatShell()
+        let l:winview=winsaveview() 
+        silent execute "%!shfmt" 
+        silent call winrestview(winview) 
+    endfunction 
+    autocmd FileType sh
+        \ autocmd BufWritePre <buffer> call s:FormatShell() 
 endif
 
 " format c files on save
-if has ("eval")
-    function! s:FormatC()
-        let l:winview=winsaveview()
-        silent execute "%!clang-format -style=File:$HOME/repos/dotfiles/clang-format/.clang-format"
-        silent call winrestview(winview)
-    endfunction
+if executable("clang-format")
+    function! s:FormatC() 
+        let l:winview=winsaveview() 
+        silent execute "%!clang-format --style=WebKit"
+        "-style=File:$HOME/repos/dotfiles/clang-format/.clang-format" 
+        silent call winrestview(winview) 
+    endfunction 
     autocmd FileType c autocmd BufWritePre <buffer> call s:FormatC()
 endif
 
+" set ripgrep as default grep
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --ignore-case\ --no-heading
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif

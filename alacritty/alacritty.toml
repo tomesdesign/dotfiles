@@ -1,6 +1,6 @@
-# import = ["/Users/martin/.config/alacritty/themes/solarized_dark.toml"]
+import = ["/Users/martin/.config/alacritty/themes/warlock.toml"]
 
-import = ["/Users/martin/.config/alacritty/themes/catppuccin_macchiato.toml"]
+# import = ["/Users/martin/.config/alacritty/themes/low_contrast.toml"]
 
 [env]
 TERM = "xterm-256color"
@@ -14,8 +14,8 @@ family = "MesloLGS NF"
 [window]
 
 [window.dimensions]
-columns = 140
-lines = 40
+columns = 100
+lines = 80
 
 # [[keyboard.bindings]]
 # chars = "\u0002 "
