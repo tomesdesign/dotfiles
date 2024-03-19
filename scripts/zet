@@ -18,7 +18,7 @@ file=$2
 
 # create and open a file in the specified directory
 create_file() {
-	dir="$PKM/+"
+	dir="$PARA/0_INBOX"
 	filename=$1
 
 	# check if filename is valid (one word or dash-separated, no .md
@@ -29,7 +29,7 @@ create_file() {
 	fi
 
 	# check if file already exists
-	if [[ -f "$PKM/+/$filename.md" ]]; then
+	if [[ -f "$dir/$filename.md" ]]; then
 		echo "File '$filename.md' already exists. Choose a different name."
 		exit 1
 	fi

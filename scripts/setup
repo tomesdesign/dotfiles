@@ -9,3 +9,4 @@ ln -sf $PWD/urlencode $HOME/.local/bin/urlencode
 ln -sf $PWD/zet $HOME/.local/bin/zet
 ln -sf $PWD/ff $HOME/.local/bin/ff
 ln -sf $PWD/fs $HOME/.local/bin/fs
+ln -sf $PWD/zmv $HOME/.local/bin/zmv

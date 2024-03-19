@@ -1,6 +1,7 @@
 #
 # ~/.bashrc
 #
+# for some reason my backspace suddenly work
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -29,7 +30,10 @@ export HISTSIZE=25000
 export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
-export ZET="$HOME/repos/zet"
+export PARA="$HOME/repos/para"
+
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 # CTRL-/ to toggle small preview window to see the full command
 # CTRL-Y to copy the command into clipboard using pbcopy
@@ -42,14 +46,16 @@ export FZF_CTRL_R_OPTS="
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 
 #alias vi="nvi"
-alias vi="vim"
+#alias vi="vim"
+# TODO: make homebrew vim as default
+alias v="/opt/homebrew/bin/vim"
 alias repos="cd $HOME/repos"
 alias dotfiles="cd $HOME/repos/dotfiles"
 alias src="source $HOME/.bashrc"
 alias ideaverse="cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Ideaverse"
 alias raspi="ssh raspibolt"
 #alias ls="eza --group-directories-first"
-alias cat="bat -p --color=never"
+#alias cat="bat -p --color=never"
 alias lynx="$HOME/.local/bin/lynx"
 alias rss="newsboat -r"
 alias '?'="duck"
@@ -58,15 +64,23 @@ alias mutt="neomutt"
 alias python="python3"
 alias draspi="docker exec -it -u admin -w /home/admin raspios /bin/bash"
 alias sles="docker exec -it -u admin -w /home/admin sles /bin/bash"
-alias ffz="ff $ZET"
-alias fsz="fs $ZET"
+alias ffz="ff $PARA"
+alias fsz="fs $PARA"
 alias fsrwx="fs $HOME/repos/rwxrob/zet/docs/"
 alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
 alias pb="$HOME/repos/pb071"
-alias sb="cd $ZET"
+alias sb="cd $PARA"
 alias vimb="vim $HOME/.bashrc"
 alias vimv="vim $HOME/.vimrc"
 alias fd="fd --color=never"
 alias ls="ls -ll"
 
+# Git
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit"
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+#export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+#export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"

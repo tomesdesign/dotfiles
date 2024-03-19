@@ -1,4 +1,4 @@
-" designed for vim 8+
+" designed for v9+
 " Barebones are used from rwxrob
 " https://github.com/rwxrob/dot/blob/main/vim/.vimrc
 
@@ -16,26 +16,60 @@ color habamax
 
 if filereadable(expand("~/.vim/autoload/plug.vim"))
     call plug#begin('~/.local/share/vim/plugins')
-        "Plug 'itchyny/lightline.vim'
-        Plug 'hardselius/warlock'
-        Plug 'dense-analysis/ale'
+        Plug 'vim-pandoc/vim-pandoc'
+        Plug 'vim-pandoc/vim-pandoc-syntax'  
+        " Good for debugging but I prefer atlas
+        Plug 'davidosomething/vim-colors-meh'
+        Plug 'huyvohcmc/atlas.vim'
+        Plug 'itchyny/lightline.vim'
+        " TODO: Make Ale work and abandon COC which is non-vim way 
+        "Plug 'dense-analysis/ale'
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
-    " pandoc
-    "let g:pandoc#modules#disabled = ["formatting", "folding", "bibliographies", "completion",
-    "            \  "metadata", "menu", "executors", "keyboard", "toc", "spell", "hypertext"]
-    let g:pandoc#modules#enabled = []
-    let g:pandoc#filetypes#pandoc_markdown = 0
+    "COC
+    "inoremap <silent><expr> <TAB>
+    "            \ coc#pum#visible() ? coc#pum#next(1) :
+    "            \ coc#refresh()
+    "inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+    " Make <CR> to accept selected completion item or notify coc.nvim to
+    " format <C-g>u breaks current undo, please make your own choice
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+    " Use <c-space> to trigger completion
+    if has('nvim')
+        inoremap <silent><expr> <c-space> coc#refresh()
+    else
+        inoremap <silent><expr> <c-@> coc#refresh()
+    endif
+    " GoTo code navigation
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)     
+    " Use K to show documentation in preview window
+    nnoremap <silent> K :call ShowDocumentation()<CR>
+    
+    function! ShowDocumentation()
+        if CocAction('hasProvider', 'hover')
+            call CocActionAsync('doHover')
+        else
+            call feedkeys('K', 'in')
+        endif
+    endfunction
 
     " ALE
-    let g:ale_sign_error = '☠'
-    let g:ale_sign_warning = '🙄'
+    "let g:ale_sign_error = '☠'
+    "let g:ale_sign_warning = '🙄'
 
-    nmap gd :ALEGoToDefinition<CR>
-    nmap K :ALEHover<CR>
+    "nmap gd :ALEGoToDefinition<CR>
+    "nmap K :ALEHover<CR>
 
     " let g:ale_linters = {'c': ['ccls']}
-    let g:ale_completion_enabled = 1
+    "let g:ale_completion_enabled = 1
     let g:ale_lint_on_enter = 1
     let g:ale_lint_on_text_changed = 'never'
     let g:ale_lint_on_insert_leave = 1
@@ -43,11 +77,17 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     let g:ale_hover_to_floating_preview = 1
     let g:ale_floating_preview = 1
     
-    set omnifunc=ale#completion#OmniFunc
+    "set omnifunc=ale#completion#OmniFunc
+    "set completeopt=menu,preview
 
-    " warlock
-    colorscheme warlock
-    let g:lightline = { 'colorscheme': 'Tomorrow_Night'}
+    " colorscheme
+    colorscheme atlas
+    let g:lightline = { 'colorscheme': 'atlas'}
+
+    " pandoc
+    let g:pandoc#formatting#mode = 'h' " A'
+    let g:pandoc#formatting#textwidth = 72
+
 endif
 
 "####################### Vi Compatible (~/.exrc) #######################
@@ -57,8 +97,9 @@ endif
 set tabstop=4 " (alpine)
 set shiftwidth=4
 
-" use case when searching
-set noignorecase
+" use smartcase when searching
+set ignorecase
+set smartcase
 
 " automatically write files when changing when multiple files open
 set autowrite
@@ -83,6 +124,10 @@ set showmode
 
 
 "########################### General  ##################################
+
+" Fix ^H/backspace not working
+"set bs=indent,eol,start
+set backspace=2
 
 " automatically indent new lines
 set autoindent " (alpine)
@@ -124,6 +169,17 @@ augroup NoAutoComment
   au FileType * setlocal formatoptions-=cro
 augroup end
 
+"########################### File types ################################
+" File specific settings
+
+" Force some files to be specific file types
+au bufnewfile,bufRead *.md set ft=markdown
+
+
+" markdown specific 
+au FileType markdown nnoremap <leader>tt :r! date "+\%Y\%m\%d\%H\%M\%S"<CR>
+
+
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
 
@@ -142,6 +198,7 @@ inoremap <right> <NOP>
 " use :f instead of :find
 cabbrev f find
 
+
 " Find files in path
 nnoremap <leader>ff :find<space>
 
@@ -149,13 +206,11 @@ nnoremap <leader>ff :find<space>
 nnoremap <leader>fs :grep<space>
 
 " Better autocompletion trigger
-imap <tab><tab> <c-x><c-o>
+"imap <tab><tab> <c-x><c-o>
 
 " disable search highlighting with <C-L> when refreshing screen
 nnoremap <C-L> :nohl<CR><C-L>
 
-" always use case insensitive search
-nnoremap / /\c
 
 " set indentation for filetypes
 au FileType yaml set sw=2
@@ -179,6 +234,12 @@ endif
 
 set background=dark
 set termguicolors
+
+" show matching part of pairs [] {} and ()
+set showmatch
+
+" highlight current line
+:highlight Cursorline cterm=bold ctermbg=yellow
 
 " statusline
 hi StatusLine ctermfg=black ctermbg=NONE
@@ -205,6 +266,9 @@ filetype plugin on
 " " use :b to autocomplete any open buffer
 set path+=**  " search down into subfolders. Provide tab-completion
 set wildmenu  " display all matching files when tab complete
+" Set pumvisibility for command mode
+set wildmode=longest:full,full
+set wildoptions=pum
 
 """ FILE BROWSING
 " netrw files browsing. use :edit .
