@@ -1,12 +1,24 @@
 text/plain; vim %s ;
-#text/html; /usr/local/lib/mutt-wizard/openfile %s ; nametemplate=%s.html
-#text/html; lynx -assume_charset=utf-8 -display_charset=utf-8 -dump -width=1024 %s; nametemplate=%s.html; copiousoutput;
+# text/html; /usr/local/lib/mutt-wizard/openfile %s ; nametemplate=%s.html
+# text/html; lynx -assume_charset=utf-8 -display_charset=utf-8 -dump -width=1024 %s; nametemplate=%s.html; copiousoutput;
 text/html; w3m -I %{charset} -T text/html; needsterminal;
 text/html; w3m -I %{charset} -dump -T text/html; copiousoutput;
-image/*; /usr/local/lib/mutt-wizard/openfile %s ;
+# image/*; /usr/local/lib/mutt-wizard/openfile %s ;
+image/*; openfile %s;
 video/*; setsid mpv --quiet %s &; copiousoutput
 audio/*; mpv %s ;
-application/pdf; /usr/local/lib/mutt-wizard/openfile %s ;
+# application/pdf; /usr/local/lib/mutt-wizard/openfile %s ;
 application/pgp-encrypted; gpg -d '%s'; copiousoutput;
 application/pgp-keys; gpg --import '%s'; copiousoutput;
 application/x-subrip; vim %s ;
+# View documents
+# Word
+# application/vnd.openxmlformats-officedocument.wordprocessingml.document; pandoc --from docx --to markdown %s; copiousoutput
+application/vnd.openxmlformats-officedocument.wordprocessingml.document; openfile %s;
+application/msword; openfile %s;
+# application/vnd.oasis.opendocument.text; pandoc --from odt --to markdown %s; copiousoutput
+# application/pdf; pdftotext -layout %s -; copiousoutput;
+# PDF ala
+application/pdf; openfile %s;
+# application/pdf; open -a "/Applications/Adobe Acrobat DC/Adobe Acrobat.app" %s;
+

@@ -288,15 +288,24 @@ if executable("shfmt")
 endif
 
 " format c files on save
-if executable("clang-format")
-    function! s:FormatC() 
-        let l:winview=winsaveview() 
-        silent execute "%!clang-format --style=WebKit"
-        "-style=File:$HOME/repos/dotfiles/clang-format/.clang-format" 
-        silent call winrestview(winview) 
-    endfunction 
-    autocmd FileType c autocmd BufWritePre <buffer> call s:FormatC()
-endif
+"if executable("shfmt")
+"    function! s:FormatShell()
+"        " Saving window view to restore it after running the command
+"        let l:winview = winsaveview()
+"        let l:formatted_output = systemlist("shfmt", expand("%"))
+"        if v:shell_error
+"            echohl ErrorMsg
+"            echomsg "Error formatting shell script with shfmt"
+"            echohl None
+"        else
+"            " Replace buffer content with formatted output
+"            silent %delete _
+"            call append(0, l:formatted_output)
+"        endif
+"        silent call winrestview(l:winview)
+"    endfunction
+"    autocmd FileType sh autocmd BufWritePre <buffer> call s:FormatShell()
+"endif
 
 " set ripgrep as default grep
 if executable("rg")

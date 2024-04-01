@@ -1,4 +1,4 @@
-import = ["/Users/martin/.config/alacritty/themes/warlock.toml"]
+import = ["/Users/martin/.config/alacritty/themes/solarized_dark.toml"]
 
 # import = ["/Users/martin/.config/alacritty/themes/low_contrast.toml"]
 
@@ -10,6 +10,7 @@ size = 18
 
 [font.normal]
 family = "MesloLGS NF"
+style = "Regular"
 
 [window]
 
@@ -24,13 +25,13 @@ lines = 80
 
 # split tmux window vertically
 [[keyboard.bindings]]
-chars = "\u0001\""
+chars = "\u0002\""
 key = "E"
 mods = "Command"
 
 # split tmux window horizontally
 [[keyboard.bindings]]
-chars = "\u0001%"
+chars = "\u0002%"
 key = "E"
 mods = "Command|Shift"
 
@@ -113,7 +114,7 @@ mods = "Command|Shift"
 
 # create a new tmux window
 [[keyboard.bindings]]
-chars = "\u0001c"
+chars = "\u0002c"
 key = "C"
 mods = "Command"
 
@@ -190,46 +191,46 @@ mods = "Command"
 
 # Map numbers. Use cmd +[0-9] to move through tmux windows
 [[keyboard.bindings]]
-chars = "\u00011"
+chars = "\u00021"
 key = "Key1"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00012"
+chars = "\u00022"
 key = "Key2"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00013"
+chars = "\u00023"
 key = "Key3"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00014"
+chars = "\u00024"
 key = "Key4"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00015"
+chars = "\u00025"
 key = "Key5"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00016"
+chars = "\u00026"
 key = "Key6"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00017"
+chars = "\u00027"
 key = "Key7"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00018"
+chars = "\u00028"
 key = "Key8"
 mods = "Command"
 
 [[keyboard.bindings]]
-chars = "\u00019"
+chars = "\u00029"
 key = "Key9"
 mods = "Command"

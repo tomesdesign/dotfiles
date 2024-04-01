@@ -18,7 +18,7 @@ file=$2
 
 # create and open a file in the specified directory
 create_file() {
-	dir="$PARA/0_INBOX"
+	dir="$ZET/0_INBOX"
 	filename=$1
 
 	# check if filename is valid (one word or dash-separated, no .md
