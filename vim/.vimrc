@@ -19,9 +19,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         Plug 'vim-pandoc/vim-pandoc'
         Plug 'vim-pandoc/vim-pandoc-syntax'  
         " Good for debugging but I prefer atlas
-        Plug 'davidosomething/vim-colors-meh'
-        Plug 'huyvohcmc/atlas.vim'
-        Plug 'itchyny/lightline.vim'
         " TODO: Make Ale work and abandon COC which is non-vim way 
         "Plug 'dense-analysis/ale'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -81,8 +78,7 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     "set completeopt=menu,preview
 
     " colorscheme
-    colorscheme atlas
-    let g:lightline = { 'colorscheme': 'atlas'}
+    colorscheme tomesink
 
     " pandoc
     let g:pandoc#formatting#mode = 'h' " A'

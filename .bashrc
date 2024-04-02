@@ -37,10 +37,6 @@ export ZET="$GHUSER/zet"
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-# Emacs
-export EMACS_DIR="/Applications/Emacs.app/Contents/MacOS"
-export PATH="$HOME/.config/emacs/bin:$PATH"
-
 # CTRL-/ to toggle small preview window to see the full command
 # CTRL-Y to copy the command into clipboard using pbcopy
 #export FZF_CTRL_R_OPTS="
@@ -54,32 +50,31 @@ export PATH="$HOME/.config/emacs/bin:$PATH"
 #alias vi="nvi"
 #alias vi="vim"
 # TODO: make homebrew vim as default
-alias v="/opt/homebrew/bin/vim"
+#alias v="/opt/homebrew/bin/vim"
 alias cr="cd $REPOS"
 alias cdt="cd $GHUSER/dotfiles"
+alias cz="cd $GHUSER/zet"
+alias cpb="cd $GHUSER/pb071"
+alias cs="cd $GHUSER/dotfiles/scripts"
+
 alias src="source $HOME/.bashrc"
-alias ideaverse="cd $HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Ideaverse"
 alias raspi="ssh raspibolt"
-#alias ls="eza --group-directories-first"
-#alias cat="bat -p --color=never"
+alias ls="eza --group-directories-first"
+alias cat="bat -p --color=never"
 alias lynx="$HOME/.local/bin/lynx"
 alias rss="newsboat -r"
 alias '?'="duck"
 alias '??'="gpt"
 alias mutt="neomutt"
 alias python="python3"
-alias draspi="docker exec -it -u admin -w /home/admin raspios /bin/bash"
-alias sles="docker exec -it -u admin -w /home/admin sles /bin/bash"
-alias ffz="ff $PARA"
-alias fsz="fs $PARA"
-alias fsrwx="fs $HOME/repos/rwxrob/zet/docs/"
+alias ffz="ff $ZET"
+alias fsz="fs $ZET"
+alias fsrw="fs $REPOS/rwxrob/zet/docs/"
 alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
-alias pb="$HOME/repos/pb071"
-alias sb="cd $PARA"
-alias vimb="vim $HOME/.bashrc"
-alias vimv="vim $HOME/.vimrc"
+
 alias fd="fd --color=never"
 alias ls="ls -ll"
+alias ls="ls -la"
 
 alias vv="vim $HOME/.vimrc"
 alias vb="vim $HOME/.bashrc"
@@ -88,9 +83,7 @@ alias vb="vim $HOME/.bashrc"
 alias gs="git status"
 alias ga="git add"
 alias gc="git commit"
-
-# Emacs
-alias em='$EMACS_DIR/bin/emacsclient -c -a '\''(emacs) (switch-to-buffer "vterm")'\'''
+alias gp="git push"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
