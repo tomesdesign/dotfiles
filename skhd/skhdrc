@@ -1,0 +1,3 @@
+cmd - h [
+  "alacritty" : skhd -k "ctrl - b" && skhd -k "h"
+]

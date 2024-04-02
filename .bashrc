@@ -59,7 +59,7 @@ alias cs="cd $GHUSER/dotfiles/scripts"
 
 alias src="source $HOME/.bashrc"
 alias raspi="ssh raspibolt"
-alias ls="eza --group-directories-first"
+alias ls="eza -ll --group-directories-first"
 alias cat="bat -p --color=never"
 alias lynx="$HOME/.local/bin/lynx"
 alias rss="newsboat -r"
@@ -73,8 +73,7 @@ alias fsrw="fs $REPOS/rwxrob/zet/docs/"
 alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
 
 alias fd="fd --color=never"
-alias ls="ls -ll"
-alias ls="ls -la"
+alias la="ls -la"
 
 alias vv="vim $HOME/.vimrc"
 alias vb="vim $HOME/.bashrc"

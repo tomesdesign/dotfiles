@@ -9,18 +9,14 @@ endif
 set nocompatible
 let mapleader=" "
 
-" Use this clorscheme as default without plugins
-color habamax
-
 "########################### PLUGINS ###################################
 
 if filereadable(expand("~/.vim/autoload/plug.vim"))
     call plug#begin('~/.local/share/vim/plugins')
         Plug 'vim-pandoc/vim-pandoc'
         Plug 'vim-pandoc/vim-pandoc-syntax'  
-        " Good for debugging but I prefer atlas
-        " TODO: Make Ale work and abandon COC which is non-vim way 
-        "Plug 'dense-analysis/ale'
+        Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+        Plug 'ap/vim-css-color'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
@@ -58,31 +54,13 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         endif
     endfunction
 
-    " ALE
-    "let g:ale_sign_error = '☠'
-    "let g:ale_sign_warning = '🙄'
-
-    "nmap gd :ALEGoToDefinition<CR>
-    "nmap K :ALEHover<CR>
-
-    " let g:ale_linters = {'c': ['ccls']}
-    "let g:ale_completion_enabled = 1
-    let g:ale_lint_on_enter = 1
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_lint_on_insert_leave = 1
-    let g:ale_lint_on_save = 1
-    let g:ale_hover_to_floating_preview = 1
-    let g:ale_floating_preview = 1
-    
-    "set omnifunc=ale#completion#OmniFunc
-    "set completeopt=menu,preview
-
     " colorscheme
     colorscheme tomesink
 
     " pandoc
     let g:pandoc#formatting#mode = 'h' " A'
     let g:pandoc#formatting#textwidth = 72
+    let g:pandoc#spell#enabled = 0
 
 endif
 
@@ -172,8 +150,6 @@ augroup end
 au bufnewfile,bufRead *.md set ft=markdown
 
 
-" markdown specific 
-au FileType markdown nnoremap <leader>tt :r! date "+\%Y\%m\%d\%H\%M\%S"<CR>
 
 
 "########################## Keymaps  ###################################
@@ -216,10 +192,10 @@ au FileType c set sw=4
 set cinoptions+=:0
 
 " Quickfix traversing
-nnoremap <C-j> :cn<CR>
-nnoremap <C-k> :cp<CR>
-nnoremap <C-\> :cope<CR>
-nnoremap <C-[> :ccl<CR>
+nnoremap <C-]> :cn<CR>
+nnoremap <C-[> :cp<CR>
+"nnoremap <C-\> :cope<CR>
+"nnoremap <C-[> :ccl<CR>
 
 
 "############################# UI  #####################################
@@ -234,23 +210,37 @@ set termguicolors
 " show matching part of pairs [] {} and ()
 set showmatch
 
-" highlight current line
-:highlight Cursorline cterm=bold ctermbg=yellow
-
-" statusline
 hi StatusLine ctermfg=black ctermbg=NONE
 hi StatusLineNC ctermfg=black ctermbg=NONE
 
-" Status line left side.
-set statusline+=\ %t\ %M\ %Y\ %R
 
-" Use a divider to separate the left side from the right side.
+" statusline
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
 set statusline+=%=
-
-" Status line right side.
-set statusline+=\ ascii:\ %b\ hex:\ 0x%B\ row:\ %l\ col:\ %c\ percent:\ %p%%
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\
 
 set laststatus=2
+    
 "##################### Do things without plugins #######################
 
 " " Internal plugins are ok :)
@@ -272,36 +262,27 @@ let g:netrw_banner=0 " disable banner
 let g:netrw_liststyle=3 " tree view
 
 " format shell on save 
-if executable("shfmt")
-    function! s:FormatShell()
-        " Saving window view to restore it after running the command
-        let l:winview=winsaveview() 
-        silent execute "%!shfmt" 
-        silent call winrestview(winview) 
-    endfunction 
-    autocmd FileType sh
-        \ autocmd BufWritePre <buffer> call s:FormatShell() 
-endif
-
-" format c files on save
+" If shfmt outputs error, this overwrittes the whole file with the error
 "if executable("shfmt")
 "    function! s:FormatShell()
 "        " Saving window view to restore it after running the command
-"        let l:winview = winsaveview()
-"        let l:formatted_output = systemlist("shfmt", expand("%"))
-"        if v:shell_error
-"            echohl ErrorMsg
-"            echomsg "Error formatting shell script with shfmt"
-"            echohl None
-"        else
-"            " Replace buffer content with formatted output
-"            silent %delete _
-"            call append(0, l:formatted_output)
-"        endif
-"        silent call winrestview(l:winview)
-"    endfunction
-"    autocmd FileType sh autocmd BufWritePre <buffer> call s:FormatShell()
+"        let l:winview=winsaveview() 
+"        silent execute "%!shfmt" 
+"        silent call winrestview(winview) 
+"    endfunction 
+"    autocmd FileType sh
+"        \ autocmd BufWritePre <buffer> call s:FormatShell() 
 "endif
+
+" format c files on save
+if has ("eval")
+    function! s:FormatC()
+        let l:winview=winsaveview()
+        silent execute "%!clang-format -style=File:$HOME/repos/tomesink/dotfiles/clang-format/.clang-format"
+        silent call winrestview(winview)
+    endfunction
+    autocmd FileType c autocmd BufWritePre <buffer> call s:FormatC()
+endif
 
 " set ripgrep as default grep
 if executable("rg")

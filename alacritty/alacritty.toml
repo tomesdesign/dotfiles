@@ -18,11 +18,6 @@ style = "Regular"
 columns = 100
 lines = 80
 
-# [[keyboard.bindings]]
-# chars = "\u0002 "
-# key = "C"
-# mods = "Command|Shift"
-
 # split tmux window vertically
 [[keyboard.bindings]]
 chars = "\u0002\""
@@ -34,6 +29,55 @@ mods = "Command"
 chars = "\u0002%"
 key = "E"
 mods = "Command|Shift"
+
+# create a new tmux window
+[[keyboard.bindings]]
+chars = "\u0002c"
+key = "C"
+mods = "Command"
+
+#switch to next tmux window
+[[keyboard.bindings]]
+chars = "\u0002n"
+key = "]"
+mods = "Command"
+
+#switch to previous tmux window
+# TODO: fix "Grave"
+[[keyboard.bindings]]
+chars = "\u0002p"
+key = "["
+mods = "Command"
+
+# # switch to pane left
+# [[keyboard.bindings]]
+# chars = "\u0002h"
+# key = "h"
+# mods = "Command"
+
+# switch to pane right
+[[keyboard.bindings]]
+chars = "\u0002l"
+key = "l"
+mods = "Command"
+
+# switch to pane up
+[[keyboard.bindings]]
+chars = "\u0002k"
+key = "k"
+mods = "Command"
+
+# switch to pane down
+[[keyboard.bindings]]
+chars = "\u0002j"
+key = "j"
+mods = "Command"
+
+# [[keyboard.bindings]]
+# chars = "\u0002 "
+# key = "C"
+# mods = "Command|Shift"
+
 
 # [[keyboard.bindings]]
 # chars = """
@@ -112,11 +156,6 @@ mods = "Command|Shift"
 # key = "S"
 # mods = "Command|Shift"
 
-# create a new tmux window
-[[keyboard.bindings]]
-chars = "\u0002c"
-key = "C"
-mods = "Command"
 
 # [[keyboard.bindings]]
 # chars = "\u0002]"
@@ -139,18 +178,6 @@ mods = "Command"
 # key = "Z"
 # mods = "Command"
 
-#switch to next tmux window
-[[keyboard.bindings]]
-chars = "\u0002n"
-key = "]"
-mods = "Command"
-
-#switch to previous tmux window
-# TODO: fix "Grave"
-[[keyboard.bindings]]
-chars = "\u0002p"
-key = "["
-mods = "Command"
 
 # [[keyboard.bindings]]
 # chars = "\u0002,"
