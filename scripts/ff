@@ -11,7 +11,7 @@ set -o errexit
 set -o nounset
 
 DIR="."
-FZF_OPTS=(--preview 'cat -n {}' --preview-window=up,70%,wrap)
+FZF_OPTS=(--preview 'bat -n --color=always {}' --preview-window=up,70%,wrap)
 FD_OPTS=(--type f --hidden --follow '')
 
 if [ $# -eq 1 ]; then

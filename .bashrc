@@ -56,11 +56,12 @@ alias cdt="cd $GHUSER/dotfiles"
 alias cz="cd $GHUSER/zet"
 alias cpb="cd $GHUSER/pb071"
 alias cs="cd $GHUSER/dotfiles/scripts"
+alias ctr="cd $GHUSER/trezor-firmware/"
 
 alias src="source $HOME/.bashrc"
 alias raspi="ssh raspibolt"
 alias ls="eza -ll --group-directories-first"
-alias cat="bat -p --color=never"
+#alias cat="bat -p --color=never"
 alias lynx="$HOME/.local/bin/lynx"
 alias rss="newsboat -r"
 alias '?'="duck"
@@ -72,7 +73,7 @@ alias fsz="fs $ZET"
 alias fsrw="fs $REPOS/rwxrob/zet/docs/"
 alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
 
-alias fd="fd --color=never"
+alias fd="fd --color=always"
 alias la="ls -la"
 
 alias vv="vim $HOME/.vimrc"
@@ -83,6 +84,10 @@ alias gs="git status"
 alias ga="git add"
 alias gc="git commit"
 alias gp="git push"
+
+# cmake
+alias cm="cmake -S . -B build"
+alias mb="make -C build"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #export PATH="/opt/homebrew/opt/llvm/bin:$PATH"

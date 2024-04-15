@@ -8,6 +8,10 @@ endif
 
 set nocompatible
 let mapleader=" "
+" Turn on internal plugins for netrw
+filetype plugin on
+" Fallback colorscheme if no color plugin
+color retrobox
 
 "########################### PLUGINS ###################################
 
@@ -15,51 +19,52 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     call plug#begin('~/.local/share/vim/plugins')
         Plug 'vim-pandoc/vim-pandoc'
         Plug 'vim-pandoc/vim-pandoc-syntax'  
+        Plug 'jiangmiao/auto-pairs'
+        Plug 'ajgrf/parchment'
+        Plug 'plan9-for-vimspace/acme-colors'
+        Plug 'robertmeta/nofrils'
+        Plug 'lunacookies/vim-plan9'
+        Plug 'sainnhe/gruvbox-material'
+        Plug 'unblevable/quick-scope'
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
         Plug 'ap/vim-css-color'
-        Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        "Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
-    "COC
-    "inoremap <silent><expr> <TAB>
-    "            \ coc#pum#visible() ? coc#pum#next(1) :
-    "            \ coc#refresh()
-    "inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+    "inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+    "            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-    " Make <CR> to accept selected completion item or notify coc.nvim to
-    " format <C-g>u breaks current undo, please make your own choice
-    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-
-    " Use <c-space> to trigger completion
-    if has('nvim')
-        inoremap <silent><expr> <c-space> coc#refresh()
-    else
-        inoremap <silent><expr> <c-@> coc#refresh()
-    endif
-    " GoTo code navigation
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)     
-    " Use K to show documentation in preview window
-    nnoremap <silent> K :call ShowDocumentation()<CR>
-    
-    function! ShowDocumentation()
-        if CocAction('hasProvider', 'hover')
-            call CocActionAsync('doHover')
-        else
-            call feedkeys('K', 'in')
-        endif
-    endfunction
+    "" Use <c-space> to trigger completion
+    "if has('nvim')
+    "    inoremap <silent><expr> <c-space> coc#refresh()
+    "else
+    "    inoremap <silent><expr> <c-@> coc#refresh()
+    "endif
+    "" GoTo code navigation
+    "nmap <silent> gd <Plug>(coc-definition)
+    "nmap <silent> gy <Plug>(coc-type-definition)
+    "nmap <silent> gi <Plug>(coc-implementation)
+    "nmap <silent> gr <Plug>(coc-references)     
+    "" Use K to show documentation in preview window
+    "nnoremap <silent> K :call ShowDocumentation()<CR>
+    "
+    "function! ShowDocumentation()
+    "    if CocAction('hasProvider', 'hover')
+    "        call CocActionAsync('doHover')
+    "    else
+    "        call feedkeys('K', 'in')
+    "    endif
+    "endfunction
 
     " colorscheme
-    colorscheme tomesink
+    colorscheme gruvbox-material  "msvcpp6     
+    let g:gruvbox_material_better_performance = 1
+    let g:gruvbox_material_background = 'medium'
 
     " pandoc
     let g:pandoc#formatting#mode = 'h' " A'
     let g:pandoc#formatting#textwidth = 72
+    let g:pandoc#folding#fold_fenced_codeblocks = 1
     let g:pandoc#spell#enabled = 0
 
 endif
@@ -68,8 +73,8 @@ endif
 " Copy this settings into ~/.exrc on a system where VIM is not available
 
 " number of spaces to replace a tab with
-set tabstop=4 " (alpine)
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 
 " use smartcase when searching
 set ignorecase
@@ -99,6 +104,9 @@ set showmode
 
 "########################### General  ##################################
 
+" disable annoying paste mode
+set nopaste
+
 " Fix ^H/backspace not working
 "set bs=indent,eol,start
 set backspace=2
@@ -116,6 +124,7 @@ set expandtab " (alpine)
 " enough for line numbers + gutter within 80 standard
 set textwidth=72
 set colorcolumn=73
+set wrap
 
 " more risky, but cleaner
 set nobackup
@@ -147,13 +156,29 @@ augroup end
 " File specific settings
 
 " Force some files to be specific file types
-au bufnewfile,bufRead *.md set ft=markdown
+" au bufnewfile,bufRead *.md set ft=markdown
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c++=cpp', 'viml=vim',]
 
+" Wrap text for markdown
+au FileType markdown,pandoc set wrap
 
+" Use 80 line width when coding
+au FileType c,cpp,python set textwidth=79
+au FileType c,cpp,python set colorcolumn=80
+au FileType c,cpp,python set wrap
+
+" Force header files to be C files
+au bufnewfile,bufRead *.h set ft=c,cpp
 
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
+
+" buffers 
+nnoremap <leader>] :bnext<CR>
+nnoremap <leader>[ :bprevious<CR>
+" better list and change buffers
+nnoremap <leader>l :ls<CR>:b<space>
 
 " Disable Arrow keys in normal mode 
 noremap <up> :echoerr "Umm, use k instead"<CR>
@@ -170,33 +195,26 @@ inoremap <right> <NOP>
 " use :f instead of :find
 cabbrev f find
 
+" Moving lines in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '>-2<CR>gv=gv
 
 " Find files in path
-nnoremap <leader>ff :find<space>
+"nnoremap <leader>ff :find<space>
 
 " Find strings in files in path
-nnoremap <leader>fs :grep<space>
-
-" Better autocompletion trigger
-"imap <tab><tab> <c-x><c-o>
+"nnoremap <leader>fs :grep<space>
 
 " disable search highlighting with <C-L> when refreshing screen
 nnoremap <C-L> :nohl<CR><C-L>
 
-
-" set indentation for filetypes
-au FileType yaml set sw=2
-au FileType bash set sw=4
-au FileType c set sw=4
-
 set cinoptions+=:0
 
 " Quickfix traversing
-nnoremap <C-]> :cn<CR>
-nnoremap <C-[> :cp<CR>
+nnoremap <C-j> :cn<CR>
+nnoremap <C-k> :cp<CR>
 "nnoremap <C-\> :cope<CR>
 "nnoremap <C-[> :ccl<CR>
-
 
 "############################# UI  #####################################
 
@@ -212,7 +230,6 @@ set showmatch
 
 hi StatusLine ctermfg=black ctermbg=NONE
 hi StatusLineNC ctermfg=black ctermbg=NONE
-
 
 " statusline
 function! GitBranch()
@@ -243,8 +260,6 @@ set laststatus=2
     
 "##################### Do things without plugins #######################
 
-" " Internal plugins are ok :)
-filetype plugin on
 
 "" FILES HANDLING
 " hit tab to :find by partial match
@@ -260,6 +275,7 @@ set wildoptions=pum
 " netrw files browsing. use :edit .
 let g:netrw_banner=0 " disable banner
 let g:netrw_liststyle=3 " tree view
+let g:netrw_list_hide= '.*\.swp$,.*\.DS_Store'
 
 " format shell on save 
 " If shfmt outputs error, this overwrittes the whole file with the error

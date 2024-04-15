@@ -1,6 +1,8 @@
-import = ["/Users/martin/.config/alacritty/themes/solarized_dark.toml"]
+# import = ["/Users/martin/.config/alacritty/themes/github_light_high_contrast.toml"]
 
-# import = ["/Users/martin/.config/alacritty/themes/low_contrast.toml"]
+import = [
+    "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_dark.toml",
+]
 
 [env]
 TERM = "xterm-256color"
