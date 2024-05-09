@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+python -m venv __venv__
+. __venv__/bin/activate

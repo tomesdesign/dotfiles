@@ -20,19 +20,15 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         Plug 'vim-pandoc/vim-pandoc'
         Plug 'vim-pandoc/vim-pandoc-syntax'  
         Plug 'jiangmiao/auto-pairs'
-        Plug 'ajgrf/parchment'
-        Plug 'plan9-for-vimspace/acme-colors'
-        Plug 'robertmeta/nofrils'
-        Plug 'lunacookies/vim-plan9'
         Plug 'sainnhe/gruvbox-material'
         Plug 'unblevable/quick-scope'
         Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
         Plug 'ap/vim-css-color'
-        "Plug 'neoclide/coc.nvim', {'branch': 'release'}
+        Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
-    "inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-    "            \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+    inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
     "" Use <c-space> to trigger completion
     "if has('nvim')
@@ -41,12 +37,12 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     "    inoremap <silent><expr> <c-@> coc#refresh()
     "endif
     "" GoTo code navigation
-    "nmap <silent> gd <Plug>(coc-definition)
-    "nmap <silent> gy <Plug>(coc-type-definition)
-    "nmap <silent> gi <Plug>(coc-implementation)
-    "nmap <silent> gr <Plug>(coc-references)     
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)     
     "" Use K to show documentation in preview window
-    "nnoremap <silent> K :call ShowDocumentation()<CR>
+    nnoremap <silent> K :call ShowDocumentation()<CR>
     "
     "function! ShowDocumentation()
     "    if CocAction('hasProvider', 'hover')

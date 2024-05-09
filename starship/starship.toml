@@ -10,7 +10,7 @@ detect_env_vars = ["CLOUDSDK_CONFIG"]
 format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
 
 [python]
-disabled = true
+#disabled = true
 
 [nodejs]
 disabled = true
