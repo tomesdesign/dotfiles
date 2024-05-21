@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+pip_install() {
+    package=$1
+    if [ -d "__venv__" ]; then
+        pip install "$package"
+
+        # Check if the installation was successful
+        if [ $? -eq 0 ]; then
+            echo "Successfully installed $package"
+            if [ -f pyproject.toml ]; then
+               # Check if dependencies array exists in pyproject.toml
+                if grep -q "dependencies = \[" pyproject.toml; then
+                    # Append the package to dependencies in pyproject.toml
+                    sed -i '' "/dependencies = \[/ { /dependencies = \[/ {
+                        N
+                        s/\(dependencies = \[\)\(.*\)/\1\n    \"$package\",\2/
+                        }
+                        }" pyproject.toml
+                else
+                    # Add the dependencies array and append the package
+                    echo -e "dependencies = [\n    \"$package\"," >> pyproject.toml
+                fi
+                echo "Added $package to dependencies in pyproject.toml"
+            fi
+        else
+            echo "Failed to install $package"
+        fi
+    else
+        echo "Virtual environment not found. Run 'python3 -m venv __venv__' to create one."
+        exit 1
+    fi
+}
+
+if [ "$1" == "add" ]; then
+    if [ -z "$2" ]; then
+        echo "Usage: $0 add <package>"
+        exit 1
+    fi
+    pip_install "$2"
+    exit 0
+fi
+
+python3 -m venv __venv__
+

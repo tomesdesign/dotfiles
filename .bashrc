@@ -32,7 +32,7 @@ export HISTCONTROL=ignorespace
 
 export REPOS="$HOME/repos"
 export GHUSER="$REPOS/tomesink"
-export ZET="$GHUSER/zet"
+export ZET="$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/zet"
 
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
@@ -53,7 +53,7 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 #alias v="/opt/homebrew/bin/vim"
 alias cr="cd $REPOS"
 alias cdt="cd $GHUSER/dotfiles"
-alias cz="cd $GHUSER/zet"
+alias cz="cd '$ZET'"
 alias cpb="cd $GHUSER/pb071"
 alias cs="cd $GHUSER/dotfiles/scripts"
 alias ctr="cd $GHUSER/trezor-firmware/"

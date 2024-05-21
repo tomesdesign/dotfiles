@@ -10,5 +10,5 @@ ln -sf $PWD/zet $HOME/.local/bin/zet
 ln -sf $PWD/ff $HOME/.local/bin/ff
 ln -sf $PWD/fs $HOME/.local/bin/fs
 ln -sf $PWD/zmv $HOME/.local/bin/zmv
-ln -sf $PWD/venv $HOME/.local/bin/venv
+ln -sf $PWD/penv $HOME/.local/bin/penv
 
