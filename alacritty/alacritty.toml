@@ -17,7 +17,7 @@ style = "Regular"
 [window]
 
 [window.dimensions]
-columns = 100
+columns = 120
 lines = 80
 
 # split tmux window vertically
