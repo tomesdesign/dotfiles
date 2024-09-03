@@ -89,6 +89,9 @@ alias gp="git push"
 alias cm="cmake -S . -B build"
 alias mb="make -C build"
 
+# CotEditor
+alias cot="/Applications/CotEditor.app/Contents/MacOS/CotEditor"
+
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 #export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 #export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"

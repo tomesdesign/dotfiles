@@ -19,11 +19,11 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     call plug#begin('~/.local/share/vim/plugins')
         Plug 'vim-pandoc/vim-pandoc'
         Plug 'vim-pandoc/vim-pandoc-syntax'  
-        Plug 'jiangmiao/auto-pairs'
+        "Plug 'jiangmiao/auto-pairs'
         Plug 'sainnhe/gruvbox-material'
-        Plug 'unblevable/quick-scope'
-        Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
-        Plug 'ap/vim-css-color'
+        "Plug 'unblevable/quick-scope'
+        "Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+        "Plug 'ap/vim-css-color'
         Plug 'neoclide/coc.nvim', {'branch': 'release'}
     call plug#end()
 
@@ -69,8 +69,8 @@ endif
 " Copy this settings into ~/.exrc on a system where VIM is not available
 
 " number of spaces to replace a tab with
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 
 " use smartcase when searching
 set ignorecase
@@ -118,8 +118,8 @@ set nofoldenable    " disable folding
 set expandtab " (alpine)
 
 " enough for line numbers + gutter within 80 standard
-set textwidth=72
-set colorcolumn=73
+set textwidth=79
+set colorcolumn=80
 set wrap
 
 " more risky, but cleaner
@@ -239,7 +239,7 @@ endfunction
 
 set statusline=
 set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
+" set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=\ %f
 set statusline+=%m\
