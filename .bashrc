@@ -16,7 +16,7 @@ set -o vi
 bind -x '"\C-l":clear'
 
 # PATH
-export PATH="$HOME/.local/bin:$HOME/go/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Support gpt globally
 declare OPENAI_API_KEY
@@ -33,52 +33,43 @@ export HISTCONTROL=ignorespace
 
 ## repos
 export REPOS="$HOME/repos"
-export GHUSER="$REPOS/tomesink"
+export GHUSER="$REPOS/martin-tomes"
 export ZET='$HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/zet'
 
-## deno
-export DENO_INSTALL="$HOME/.deno"
-export PATH="$DENO_INSTALL/bin:$PATH"
-
-
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
-
-#alias vi="nvi"
-#alias vi="vim"
-# TODO: make homebrew vim as default
-#alias v="/opt/homebrew/bin/vim"
 alias cr="cd $REPOS"
+alias cg="cd $GHUSER"
 alias cdd="cd $GHUSER/dotfiles"
-alias cz="cd '$ZET'"
+alias crt="cd $GHUSER/js/react-tutorials"
+
+#alias vi="vim"
+#alias vim="nvim"
 
 alias src="source $HOME/.bashrc"
+
 alias raspi="ssh raspibolt"
+
 alias ls="eza -ll --group-directories-first"
-#alias cat="bat -p --color=never"
-alias lynx="$HOME/.local/bin/lynx"
-alias rss="newsboat -r"
+alias cat="bat -p"
+
 alias '?'="duck"
 alias '??'="gpt"
-alias mutt="neomutt"
-alias python="python3"
 
-alias z="ff $ZET/Cards"
-alias zs="fs $ZET/Cards"
+alias python="python3"
 
 alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
 
 alias fd="fd --color=always"
 alias la="ls -la"
 
-alias vv="vim $HOME/.vimrc"
-alias vb="vim $HOME/.bashrc"
-
-# cmake
-alias cm="cmake -S . -B build"
-alias mb="make -C build"
-
 # fzf
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-#export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-#export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-#export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# pnpm
+export PNPM_HOME="/Users/martin/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

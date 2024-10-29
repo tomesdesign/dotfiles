@@ -12,8 +12,7 @@ if [[ "$OSTYPE" == "linux"* ]]; then
 	export LC_ALL=C
 fi
 
-if [ -r ~/.bashrc ]; then
-	source ~/.bashrc
-fi
-. "$HOME/.cargo/env"
+# if [ -r ~/.bashrc ]; then
+# 	source ~/.bashrc
+# fi
 stty -ixon

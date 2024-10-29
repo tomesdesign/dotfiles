@@ -1,59 +1,95 @@
-add_newline = true
-palette = "catppuccin_mocha"
+# Replace the "❯" symbol in the prompt with "➜"
+# palette = "catppuccin_mocha"
+
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+
+# # add_newline = true
+
 
 [directory]
-truncation_length = 2
+truncation_length = 4
 truncation_symbol = '…/'
 
+[git_branch]
+# symbol = "🌱 "
+truncation_length = 10
+truncation_symbol = ""
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = "🔖 "
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = "[🍒 PICKING](bold red)" 
+
+[git_status]
+# conflicted = "🏳"
+# ahead = "🏎💨"
+# behind = "😰"
+# diverged = "😵"
+# untracked = "🤷‍"
+# stashed = "📦"
+# modified = "📝"
+staged = '[++\($count\)](green)'
+# renamed = "👅"
+# deleted = "🗑"
+
 [gcloud]
-detect_env_vars = ["CLOUDSDK_CONFIG"]
-format = 'on [$symbol$account(@$domain)(\($project\))]($style) '
+disabled = true # disable the annoying cloud icon
+
+[aws]
+disabled = true # disable the annoying cloud icon
+
+[lua]
+disabled = true
 
 [python]
-#disabled = true
+disabled = true
 
 [nodejs]
 disabled = true
 
-[package]
-disabled = true
+# [package]
+# disabled = true
 
-[shell]
-disabled = false
+# [shell]
+# disabled = false
 
-[golang]
-disabled = true
+# [golang]
+# disabled = true
 
-[c]
-disabled = true
+# [c]
+# disabled = true
 
-[cmake]
-disabled = true
+# [cmake]
+# disabled = true
 
-[palettes.catppuccin_mocha]
-rosewater = "#f5e0dc"
-flamingo = "#f2cdcd"
-pink = "#f5c2e7"
-mauve = "#cba6f7"
-red = "#f38ba8"
-maroon = "#eba0ac"
-peach = "#fab387"
-yellow = "#f9e2af"
-green = "#a6e3a1"
-teal = "#94e2d5"
-sky = "#89dceb"
-sapphire = "#74c7ec"
-blue = "#89b4fa"
-lavender = "#b4befe"
-text = "#cdd6f4"
-subtext1 = "#bac2de"
-subtext0 = "#a6adc8"
-overlay2 = "#9399b2"
-overlay1 = "#7f849c"
-overlay0 = "#6c7086"
-surface2 = "#585b70"
-surface1 = "#45475a"
-surface0 = "#313244"
-base = "#1e1e2e"
-mantle = "#181825"
-crust = "#11111b"
+# [palettes.catppuccin_mocha]
+# rosewater = "#f5e0dc"
+# flamingo = "#f2cdcd"
+# pink = "#f5c2e7"
+# mauve = "#cba6f7"
+# red = "#f38ba8"
+# maroon = "#eba0ac"
+# peach = "#fab387"
+# yellow = "#f9e2af"
+# green = "#a6e3a1"
+# teal = "#94e2d5"
+# sky = "#89dceb"
+# sapphire = "#74c7ec"
+# blue = "#89b4fa"
+# lavender = "#b4befe"
+# text = "#cdd6f4"
+# subtext1 = "#bac2de"
+# subtext0 = "#a6adc8"
+# overlay2 = "#9399b2"
+# overlay1 = "#7f849c"
+# overlay0 = "#6c7086"
+# surface2 = "#585b70"
+# surface1 = "#45475a"
+# surface0 = "#313244"
+# base = "#1e1e2e"
+# mantle = "#181825"
+# crust = "#11111b"

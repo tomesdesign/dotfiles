@@ -59,7 +59,7 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
     " pandoc
     let g:pandoc#formatting#mode = 'h' " A'
-    let g:pandoc#formatting#textwidth = 72
+    let g:pandoc#formatting#textwidth = 94
     let g:pandoc#folding#fold_fenced_codeblocks = 1
     let g:pandoc#spell#enabled = 0
 
@@ -100,6 +100,13 @@ set showmode
 
 "########################### General  ##################################
 
+" Do not insert comment leaders
+" set formatoptions-=cro " for somereason this not working at all
+" augroup NoAutoComment
+"   au!
+"   au FileType * setlocal formatoptions-=cro
+" augroup end
+
 " disable annoying paste mode
 set nopaste
 
@@ -117,10 +124,15 @@ set nofoldenable    " disable folding
 " replace tabs with spaces automatically
 set expandtab " (alpine)
 
-" enough for line numbers + gutter within 80 standard
-set textwidth=79
-set colorcolumn=80
-set wrap
+" Text width, autowrap (hardwrap)...
+" set textwidth=100
+" set colorcolumn=101
+" set columns=100
+" set linebreak
+" set wrap
+set textwidth=100
+" set wrapmargin=0
+set formatoptions+=t
 
 " more risky, but cleaner
 set nobackup
@@ -141,13 +153,6 @@ set ttyfast
 " Disable spellcheck 
 set nospell
 
-" Do not insert comment leaders
-" set formatoptions-=cro " for somereason this not working at all
-augroup NoAutoComment
-  au!
-  au FileType * setlocal formatoptions-=cro
-augroup end
-
 "########################### File types ################################
 " File specific settings
 
@@ -156,7 +161,8 @@ augroup end
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'c++=cpp', 'viml=vim',]
 
 " Wrap text for markdown
-au FileType markdown,pandoc set wrap
+" au FileType markdown,pandoc set wrap
+au FileType markdown,pandoc set colorcolumn=101
 
 " Use 80 line width when coding
 au FileType c,cpp,python set textwidth=79
