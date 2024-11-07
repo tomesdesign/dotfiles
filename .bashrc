@@ -9,8 +9,12 @@
 # Make terminal default 258 colors
 export TERM=xterm-256color
 
+set LANG="en_US.UTF-8"
+
 # Set to superior editing mode
 set -o vi
+# Turn on posix to get TAB completion
+set +o posix
 
 # keybinds
 bind -x '"\C-l":clear'
@@ -26,7 +30,7 @@ export OPENAI_API_KEY
 # ~~~~~~~~~~~~~~~ Exports  ~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## bash
-# export HISTFILE=~/.histfile
+export HISTFILE=~/.config/bash/.histfile
 export HISTSIZE=25000
 export SAVEHIST=25000
 export HISTCONTROL=ignorespace
@@ -34,13 +38,15 @@ export HISTCONTROL=ignorespace
 ## repos
 export REPOS="$HOME/repos"
 export GHUSER="$REPOS/martin-tomes"
-export ZET='$HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/zet'
+export ICLOUD="$HOME/Library/Mobile\ Documents/"
+export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
 
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 alias cr="cd $REPOS"
-alias cg="cd $GHUSER"
-alias cdd="cd $GHUSER/dotfiles"
+alias cgh="cd $GHUSER"
+alias cdf="cd $GHUSER/dotfiles"
 alias crt="cd $GHUSER/js/react-tutorials"
+alias clg="cd $LOGSEQ"
 
 #alias vi="vim"
 #alias vim="nvim"
@@ -63,7 +69,8 @@ alias fd="fd --color=always"
 alias la="ls -la"
 
 # fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+eval "$(fzf --bash)"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # pnpm
@@ -73,3 +80,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# if [ -z "$TMUX" ]; then
+#   tmux attach -t default || tmux new -s default
+# fi

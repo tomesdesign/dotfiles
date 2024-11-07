@@ -5,9 +5,9 @@ import = [
     #"/Users/martin/.config/alacritty/themes/solarized_dark.toml",
 ]
 
-[shell]
-program = "/bin/zsh"
-args = ["-l"]
+# [shell]
+# program = "/bin/bash"
+# args = ["-l"]
 
 [env]
 TERM = "xterm-256color"
@@ -17,7 +17,8 @@ size = 18
 
 [font.normal]
 # family = "MesloLGS NF"
-family = "JetBrainsMono Nerd Font"
+# family = "JetBrainsMono Nerd Font"
+family = "MesloLGS Nerd Font"
 style = "Regular"
 
 [window]
