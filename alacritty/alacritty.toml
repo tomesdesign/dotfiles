@@ -1,7 +1,8 @@
 # import = ["/Users/martin/.config/alacritty/themes/github_light_high_contrast.toml"]
 
 import = [
-    "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_dark.toml",
+  "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_light.toml",
+    # "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_dark.toml",
     #"/Users/martin/.config/alacritty/themes/solarized_dark.toml",
 ]
 
@@ -17,8 +18,8 @@ size = 18
 
 [font.normal]
 # family = "MesloLGS NF"
-# family = "JetBrainsMono Nerd Font"
-family = "MesloLGS Nerd Font"
+family = "JetBrainsMono Nerd Font"
+# family = "MesloLGS Nerd Font"
 style = "Regular"
 
 [window]

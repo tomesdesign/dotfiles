@@ -12,7 +12,7 @@ set termencoding=utf-8
 set fileencodings=utf-8
 
 " syntax off
-set background=dark
+"set background=light
 " Fallback colorscheme if no color plugin
 color retrobox
 set termguicolors
@@ -32,29 +32,22 @@ filetype indent on
 set autoread
 au FocusGained,BufEnter * silent! checktime
 
-colorscheme gruvbox_material_simple
 
 " ########################### PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
     call plug#begin('~/.local/share/vim/plugins')
         Plug 'jiangmiao/auto-pairs'
-        Plug 'unblevable/quick-scope'
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-        " Plug 'junegunn/fzf.vim'
         Plug 'ap/vim-css-color'
         Plug 'tpope/vim-commentary'
         Plug 'dense-analysis/ale'
         Plug 'junegunn/fzf.vim'
         Plug 'itchyny/lightline.vim'
-        Plug 'shinchu/lightline-gruvbox.vim'
-        " Plug 'airblade/vim-gitgutter'
+        Plug 'airblade/vim-gitgutter'
     call plug#end()
 
-    " Quick navigation for f,F,t,T
-    highlight QuickScopePrimary guifg='#835723' gui=underline ctermfg=155 cterm=underline
-    highlight QuickScopeSecondary guifg='#835723' gui=underline ctermfg=81 cterm=underline
-    " Trigger a highlight in the appropriate direction when pressing these keys:
-    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+    " colorscheme from plugins
+    colorscheme tacme
 
     " Ale linter settings
     set signcolumn=yes
@@ -62,10 +55,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     let g:ale_sign_error = '>>'
     let g:ale_sign_warning = '--'
     let g:ale_sign_info = '!'
-
-    " let g:ale_sign_error = '☠'
-    " " let g:ale_sign_error = '‼️'
-    " let g:ale_sign_warning = '🙄'
 
     nmap gd :ALEGoToDefinition<CR>
     nmap K :ALEHover<CR>
@@ -79,20 +68,11 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     \    'html': ['prettier'],
     \}
 
-    augroup MyALESignHighlights
-      autocmd!
-      autocmd User ALELintPost hi ALEComment guifg=#fb4934
-      hi ALEErrorSign guifg=#fb4934 guibg=#282828   " Set foreground and background for error sign
-      hi ALEWarningSign guifg=#fabd2f guibg=#282828  " Set foreground and background for warning sign
-      hi ALEInfoSign guifg=#83a598 guibg=#282828     " Set foreground and background for info sign
-      hi ALEHint guifg=#b8bb26     " Change to your desired color for hints (green)
-    augroup END
-
     let g:ale_fix_on_save = 1
-    let g:ale_completion_enabled = 1
-    let g:ale_lint_on_enter = 1
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_lint_on_insert_leave = 1
+    " let g:ale_completion_enabled = 1
+    " let g:ale_lint_on_enter = 1
+    " let g:ale_lint_on_text_changed = 'never'
+    " let g:ale_lint_on_insert_leave = 1
     let g:ale_lint_on_save = 1
     let g:ale_hover_to_floating_preview = 1
     let g:ale_floating_preview = 1
@@ -102,8 +82,8 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     let g:ale_echo_msg_error_str = 'E'
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    
-    " let g:ale_linter_aliases = { 
+
+    " let g:ale_linter_aliases = {
     " \   'Dockerfile': 'dockerfile',
     " \   'javascriptreact': ['javascript', 'jsx'],
     " \   'plaintex': 'tex',
@@ -118,6 +98,15 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
     nnoremap <leader>] :ALENextWrap<CR>     " move to the next ALE warning / error
     nnoremap <leader>[ :ALEPrevious<CR> " move to the previous ALE warning / error
+    " Git gutter
+    " Set custom colors for added lines
+    " hi GitGutterAdd guifg=#b8bb26 guibg=NONE  " Green foreground, no background
+
+    " Set custom colors for changed lines
+    " hi GitGutterChange guifg=#fabd2f guibg=NONE  " Yellow foreground, no background
+
+    " Set custom colors for deleted lines
+    " hi GitGutterDelete guifg=#fb4934 guibg=NONE  " Red foreground, no background
     " FZF
     nnoremap <leader>ff :Files<CR>
     nnoremap <leader>fg :GFiles<CR>
@@ -126,7 +115,7 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     " Lightline
     set laststatus=2
     let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
+      \ 'colorscheme': '16color',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -175,7 +164,7 @@ set cmdheight=1
 set backspace=2
 " automatically indent new lines
 set autoindent " (alpine)
-" set noflash " (alpine-ish only) 
+" set noflash " (alpine-ish only)
 set nofoldenable    " disable folding
 " replace tabs with spaces automatically
 set expandtab " (alpine)
@@ -194,7 +183,7 @@ set linebreak
 set shortmess=aoOtTI
 " faster scrolling
 set ttyfast
-" Disable spellcheck 
+" Disable spellcheck
 set nospell
 
 "########################### File types ################################
@@ -216,20 +205,20 @@ au bufnewfile,bufRead *.h set ft=c,cpp
 " au FileType css setlocal formatprg=prettier\ --parser\ css
 
 "########################## Keymaps  ###################################
-" I want to stick with the default vi as much as possible 
-" Disable Arrow keys in normal mode 
+" I want to stick with the default vi as much as possible
+" Disable Arrow keys in normal mode
 noremap <up> :echoerr "Umm, use k instead"<CR>
 noremap <down> :echoerr "Umm, use j instead"<CR>
 noremap <left> :echoerr "Umm, use h instead"<CR>
 noremap <right> :echoerr "Umm, use l instead"<CR>
-" Disable Arrow keys in insert mode 
+" Disable Arrow keys in insert mode
 inoremap <up> <NOP>
 inoremap <down> <NOP>
 inoremap <left> <NOP>
 inoremap <right> <NOP>
-" Disable h and j in normal mode 
-nnoremap h <NOP>
-nnoremap l <NOP>
+" Disable h and j in normal mode
+" nnoremap h <NOP>
+" nnoremap l <NOP>
 " Traverse buffers
 nnoremap <leader>n :bnext<CR>
 nnoremap <leader>p :bprevious<CR>

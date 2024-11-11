@@ -35,6 +35,9 @@ export HISTSIZE=25000
 export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
+## Set vim as default editor
+EDITOR="/opt/homebrew/bin/vim"
+
 ## repos
 export REPOS="$HOME/repos"
 export GHUSER="$REPOS/martin-tomes"
@@ -48,7 +51,7 @@ alias cdf="cd $GHUSER/dotfiles"
 alias crt="cd $GHUSER/js/react-tutorials"
 alias clg="cd $LOGSEQ"
 
-#alias vi="vim"
+alias vi="vim"
 #alias vim="nvim"
 
 alias src="source $HOME/.bashrc"
@@ -67,6 +70,11 @@ alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff 
 
 alias fd="fd --color=always"
 alias la="ls -la"
+
+alias vv="vim $HOME/.vimrc"
+alias vb="vim $HOME/.bashrc"
+
+alias src="source $HOME/.bashrc"
 
 # fzf
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
