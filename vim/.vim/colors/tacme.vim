@@ -1,6 +1,6 @@
 hi clear
 syntax reset
-let g:colors_name = "vacme"
+let g:colors_name = "tacme"
 
 " This scheme is based on Acme & Plan9.
 " In keeping with Acme, it doesn't do syntax highlighting.
@@ -21,7 +21,8 @@ let g:colors_name = "vacme"
 " 1 is the lightest value, 3 or 4 are the darkest values
 
 " SHADES OF WHITE
-    let s:W1  = '#FFFFEC'
+    " let s:W1  = '#FFFFEC'
+    let s:W1  = '#FFFFDD'
     let s:W2  = '#EEEEA7'
     let s:W3  = '#999957'
     let s:W4  = '#424242'
@@ -151,7 +152,8 @@ exe "hi! Visual"        ." guifg=".s:W4    ." ctermfg=".s:WC4    ." guibg=".s:W2
 exe "hi! NonText"       ." guifg=".s:W3    ." ctermfg=".s:WC3
 exe "hi! StatusLine"    ." guifg=".s:W4    ." ctermfg=".s:WC4    ." guibg=".s:C1    ." ctermbg=".s:CC1    ." cterm=bold,underline"    ." gui=bold,underline"
 exe "hi! StatusLineNC"  ." guifg=".s:W4    ." ctermfg=".s:WC4    ." guibg=".s:C1    ." ctermbg=".s:CC1
-exe "hi! LineNr"        ." guifg=".s:W3    ." ctermfg=".s:WC3    ." guibg=".s:Y1    ." ctermbg=".s:WC1
+" exe "hi! LineNr"        ." guifg=".s:W3    ." ctermfg=".s:WC3    ." guibg=".s:Y1    ." ctermbg=".s:WC1
+exe "hi! LineNr"        ." guifg=".s:W3    ." ctermfg=".s:WC3    ." guibg=".s:W1    ." ctermbg=".s:WC1
 exe "hi! CursorLineNr"  ." guifg=".s:W1    ." ctermfg=".s:WC1    ." guibg=".s:M3    ." ctermbg=".s:MC3
 exe "hi! VertSplit"     ." guifg=".s:W4    ." ctermfg=".s:WC4    ." guibg=".s:C1    ." ctermbg=".s:CC1
 exe "hi! Folded"        ." guifg=".s:Y3    ." ctermfg=".s:YC3

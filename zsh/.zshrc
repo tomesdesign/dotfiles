@@ -1,6 +1,6 @@
 # Enable brew
 eval "$(/opt/homebrew/bin/brew shellenv)"
-echo -e '\e[2 q' 
+echo -e '\e[2 q'
 
 # Enable starship prompt
 eval "$(starship init zsh)"
@@ -26,7 +26,7 @@ export GHUSER="$REPOS/martin-tomes"
 export ICLOUD="$HOME/Library/Mobile\ Documents/"
 export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
 
-# export ZET='$HOME/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/zet'
+export ZET="$ICLOUD/iCloud~md~obsidian/Documents/zet"
 
 
 # Specify git global config
@@ -40,6 +40,7 @@ alias cgh="cd $GHUSER"
 alias cdf="cd $GHUSER/dotfiles"
 alias crt="cd $GHUSER/js/react-tutorials"
 alias clg="cd $LOGSEQ"
+alias cz="cd $ZET"
 
 #alias vi="vim"
 #alias vim="nvim"
@@ -50,7 +51,7 @@ alias raspi="ssh raspibolt"
 
 alias ls="eza -ll --group-directories-first"
 alias la="eza -la --group-directories-first"
-alias cat="bat -p"
+#alias cat="bat -p"
 
 alias '?'="duck"
 alias '??'="gpt"
@@ -62,10 +63,16 @@ alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff 
 alias fd="fd --color=always"
 alias la="ls -la"
 
+alias vv="vim $HOME/.vimrc"
+alias vz="vim $HOME/.config/zsh/.zshrc"
+
+alias src="source $HOME/.config/zsh/.zshrc"
+
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
+setopt SHARE_HISTORY         # Share history between sessions
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -108,4 +115,4 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# source <(fzf --zsh)
+source <(fzf --zsh)

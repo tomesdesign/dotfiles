@@ -6,9 +6,9 @@ import = [
     #"/Users/martin/.config/alacritty/themes/solarized_dark.toml",
 ]
 
-# [shell]
-# program = "/bin/bash"
-# args = ["-l"]
+[shell]
+program = "/bin/zsh"
+args = ["-l"]
 
 [env]
 TERM = "xterm-256color"

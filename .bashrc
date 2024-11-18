@@ -4,7 +4,7 @@
 # for some reason my backspace suddenly work
 
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# [[ $- != *i* ]] && return
 
 # Make terminal default 258 colors
 export TERM=xterm-256color
@@ -43,15 +43,21 @@ export REPOS="$HOME/repos"
 export GHUSER="$REPOS/martin-tomes"
 export ICLOUD="$HOME/Library/Mobile\ Documents/"
 export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
+export ZET="$ICLOUD/iCloud~md~obsidian/Documents/zet"
+
+# bat settings
+export BAT_THEME="gruvbox-light"
 
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 alias cr="cd $REPOS"
 alias cgh="cd $GHUSER"
-alias cdf="cd $GHUSER/dotfiles"
+alias cdt="cd $GHUSER/dotfiles"
 alias crt="cd $GHUSER/js/react-tutorials"
 alias clg="cd $LOGSEQ"
+alias cz="cd $ZET"
 
-alias vi="vim"
+# alias vi="nvi"
+# alias vi="nvim"
 #alias vim="nvim"
 
 alias src="source $HOME/.bashrc"
@@ -59,7 +65,7 @@ alias src="source $HOME/.bashrc"
 alias raspi="ssh raspibolt"
 
 alias ls="eza -ll --group-directories-first"
-alias cat="bat -p"
+# alias cat="bat -p"
 
 alias '?'="duck"
 alias '??'="gpt"
@@ -71,8 +77,9 @@ alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff 
 alias fd="fd --color=always"
 alias la="ls -la"
 
-alias vv="vim $HOME/.vimrc"
-alias vb="vim $HOME/.bashrc"
+alias vv="nvim $HOME/.vimrc"
+alias vb="nvim $HOME/.bashrc"
+alias vn="nvim $HOME/.config/nvim/init.lua"
 
 alias src="source $HOME/.bashrc"
 

@@ -13,8 +13,10 @@ set fileencodings=utf-8
 
 " syntax off
 "set background=light
-" Fallback colorscheme if no color plugin
-color retrobox
+" seting my own color scheme
+colorscheme tacme
+" Fallback colorscheme
+" color retrobox
 set termguicolors
 
 if has("eval")                               " vim-tiny lacks 'eval'
@@ -40,16 +42,24 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'ap/vim-css-color'
         Plug 'tpope/vim-commentary'
-        Plug 'dense-analysis/ale'
-        Plug 'junegunn/fzf.vim'
+        " Plug 'dense-analysis/ale'
         Plug 'itchyny/lightline.vim'
         Plug 'airblade/vim-gitgutter'
+        Plug 'vim-pandoc/vim-pandoc'
+        Plug 'vim-pandoc/vim-pandoc-syntax'
+        " Plug 'ignon/vimwiki-obsidian-wikilinks'
+        " Plug 'plasticboy/vim-markdown'
     call plug#end()
 
     " colorscheme from plugins
-    colorscheme tacme
+    "
+    let g:vim_markdown_folding_disabled = 1
+    let g:vim_markdown_frontmatter = 1
+    let g:vim_markdown_new_list_item_indent = 2
+    let g:vim_markdown_follow_anchor = 1
 
     " Ale linter settings
+    let g:ale_completion_enabled = 1
     set signcolumn=yes
     let g:ale_set_signs = 1
     let g:ale_sign_error = '>>'
@@ -83,30 +93,9 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     let g:ale_echo_msg_warning_str = 'W'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
-    " let g:ale_linter_aliases = {
-    " \   'Dockerfile': 'dockerfile',
-    " \   'javascriptreact': ['javascript', 'jsx'],
-    " \   'plaintex': 'tex',
-    " \   'typescriptreact': ['typescript', 'tsx'],
-    " \   'verilog_systemverilog': ['verilog_systemverilog', 'verilog'],
-    " \   'vimwiki': 'markdown',
-    " \   'vue': ['vue', 'javascript'],
-    " \   'xsd': ['xsd', 'xml'],
-    " \   'xslt': ['xslt', 'xml'],
-    " \   'zsh': 'sh',
-    " \}
-
     nnoremap <leader>] :ALENextWrap<CR>     " move to the next ALE warning / error
     nnoremap <leader>[ :ALEPrevious<CR> " move to the previous ALE warning / error
-    " Git gutter
-    " Set custom colors for added lines
-    " hi GitGutterAdd guifg=#b8bb26 guibg=NONE  " Green foreground, no background
 
-    " Set custom colors for changed lines
-    " hi GitGutterChange guifg=#fabd2f guibg=NONE  " Yellow foreground, no background
-
-    " Set custom colors for deleted lines
-    " hi GitGutterDelete guifg=#fb4934 guibg=NONE  " Red foreground, no background
     " FZF
     nnoremap <leader>ff :Files<CR>
     nnoremap <leader>fg :GFiles<CR>
@@ -154,6 +143,10 @@ set showmode
 " set autoindent cedit=
 
 "########################### General  ##################################
+ " vim hardcodes background color erase even if the terminfo file does not contain bce (not to
+ " mention that libvte based terminals incorrectly contain bce in their terminfo files). This causes
+ " incorrect background rendering when using a color theme with a background color.
+let &t_ut=''
 " disable annoying paste mode
 set nopaste
 " Always show current position
@@ -168,8 +161,8 @@ set autoindent " (alpine)
 set nofoldenable    " disable folding
 " replace tabs with spaces automatically
 set expandtab " (alpine)
+" autowrap text
 set textwidth=100
-" set wrapmargin=0
 set formatoptions+=t
 " more risky, but cleaner
 set nobackup
@@ -187,38 +180,19 @@ set ttyfast
 set nospell
 
 "########################### File types ################################
-" Use 80 line width when coding
-au FileType c,cpp,python set textwidth=79
-au FileType c,cpp,python set colorcolumn=80
-au FileType c,cpp,python set wrap
+" Setup for C and Python
 au FileType c,cpp,python set tabstop=4
 au FileType c,cpp,python set shiftwidth=4
 " Force header files to be C files
 au bufnewfile,bufRead *.h set ft=c,cpp
-" au bufnewfile,bufRead *.jsx set ft=javascript
-
-" au FileType javascript setlocal formatprg=prettier
-" au FileType javascript.jsx setlocal formatprg=prettier
-" au FileType typescript setlocal formatprg=prettier\ --parser\ typescript
-" au FileType html setlocal formatprg=js-beautify\ --type\ html
-" au FileType scss setlocal formatprg=prettier\ --parser\ css
-" au FileType css setlocal formatprg=prettier\ --parser\ css
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
-" Disable Arrow keys in normal mode
-noremap <up> :echoerr "Umm, use k instead"<CR>
-noremap <down> :echoerr "Umm, use j instead"<CR>
-noremap <left> :echoerr "Umm, use h instead"<CR>
-noremap <right> :echoerr "Umm, use l instead"<CR>
 " Disable Arrow keys in insert mode
 inoremap <up> <NOP>
 inoremap <down> <NOP>
 inoremap <left> <NOP>
 inoremap <right> <NOP>
-" Disable h and j in normal mode
-" nnoremap h <NOP>
-" nnoremap l <NOP>
 " Traverse buffers
 nnoremap <leader>n :bnext<CR>
 nnoremap <leader>p :bprevious<CR>
@@ -226,6 +200,9 @@ nnoremap <leader>p :bprevious<CR>
 nnoremap <leader>l :ls<CR>:b<space>
 " Save
 nmap <leader>s :w!<cr>
+" Copy into clipboard
+vnoremap <leader>c "+y
+nnoremap <leader>c "+y
 " use :f instead of :find
 cabbrev f find
 " Moving lines in visual mode
@@ -239,8 +216,12 @@ vnoremap K :m '>-2<CR>gv=gv
 nnoremap <C-L> :nohl<CR><C-L>
 set cinoptions+=:0
 " Quickfix traversing
-nnoremap <C-j> :cn<CR>
-nnoremap <C-k> :cp<CR>
+nnoremap <leader>j :cn<CR>
+nnoremap <leader>k :cp<CR>
+" Fixing ctrl ergonomy
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
 
 
 "##################### Do things without plugins #######################

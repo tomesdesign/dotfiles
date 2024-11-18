@@ -12,6 +12,11 @@ if [[ "$OSTYPE" == "linux"* ]]; then
 	export LC_ALL=C
 fi
 
+export HISTFILE=~/.config/bash/.histfile
+export HISTSIZE=25000
+export SAVEHIST=25000
+export HISTCONTROL=ignorespace
+
 if [ -r ~/.bashrc ]; then
 	source ~/.bashrc
 fi
