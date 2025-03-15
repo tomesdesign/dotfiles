@@ -11,7 +11,7 @@ autoload -U colors && colors
 
 # Set PATH
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.fzf/bin:$PATH"
+export PATH="$HOME/.config/emacs/bin:$PATH"
 # Make terminal default 258 colors
 export TERM=xterm-256color
 
@@ -24,10 +24,14 @@ export TERM=xterm-256color
 export REPOS="$HOME/repos"
 export GHUSER="$REPOS/martin-tomes"
 export ICLOUD="$HOME/Library/Mobile\ Documents/"
-export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
+export ZET="$ICLOUD/iCloud~com~logseq~logseq/Documents"
 
-export ZET="$ICLOUD/iCloud~md~obsidian/Documents/zet"
+export EDITOR="vim"
 
+## BAT
+export BAT_CONFIG_PATH="$HOME/.config/bat/bat.conf"
+
+export LIBRARY_PATH="/opt/homebrew/lib:$LIBRARY_PATH"
 
 # Specify git global config
 export GIT_CONFIG_GLOBAL=~/.config/git/config
@@ -37,13 +41,15 @@ export LESSHISTFILE=-
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 alias cr="cd $REPOS"
 alias cgh="cd $GHUSER"
-alias cdf="cd $GHUSER/dotfiles"
-alias crt="cd $GHUSER/js/react-tutorials"
-alias clg="cd $LOGSEQ"
+alias cdt="cd $GHUSER/dotfiles"
 alias cz="cd $ZET"
+alias zf="cz && ff"
 
-#alias vi="vim"
+# alias vi="nvim"
 #alias vim="nvim"
+
+# Emacs client
+alias ec="/Applications/Emacs.app/Contents/MacOS/bin-arm64-11/emacsclient -nc"
 
 alias src="source $HOME/.config/zsh/.zshrc"
 
@@ -65,6 +71,7 @@ alias la="ls -la"
 
 alias vv="vim $HOME/.vimrc"
 alias vz="vim $HOME/.config/zsh/.zshrc"
+alias vn="cd $HOME/.config/nvim && nvim ."
 
 alias src="source $HOME/.config/zsh/.zshrc"
 

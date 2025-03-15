@@ -1,8 +1,8 @@
 # import = ["/Users/martin/.config/alacritty/themes/github_light_high_contrast.toml"]
 
 import = [
-  "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_light.toml",
-    # "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_dark.toml",
+  # "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_light.toml",
+    "/Users/martin/.config/alacritty/themes/gruvbox_material_medium_dark.toml",
     #"/Users/martin/.config/alacritty/themes/solarized_dark.toml",
 ]
 

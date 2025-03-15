@@ -5,26 +5,23 @@
 " Do not mess the home folder
 set viminfofile=~/.vim/viminfo
 
+
 syntax enable
 
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8
 
-" syntax off
-"set background=light
-" seting my own color scheme
-colorscheme tacme
 " Fallback colorscheme
-" color retrobox
+color retrobox
+set background=dark
 set termguicolors
 
 if has("eval")                               " vim-tiny lacks 'eval'
-    let skip_defaults_vim = 1
+  let skip_defaults_vim = 1
 endif
 set nocompatible
 let mapleader=" "
-" Turn on internal plugins for netrw
 " Sets how many lines of history VIM has to remember
 set history=500
 " Enable filetype plugins
@@ -35,84 +32,63 @@ set autoread
 au FocusGained,BufEnter * silent! checktime
 
 
-" ########################### PLUGINS ###################################
+" ########################### EXTERNAL PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
-    call plug#begin('~/.local/share/vim/plugins')
-        Plug 'jiangmiao/auto-pairs'
-        Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-        Plug 'ap/vim-css-color'
-        Plug 'tpope/vim-commentary'
-        " Plug 'dense-analysis/ale'
-        Plug 'itchyny/lightline.vim'
-        Plug 'airblade/vim-gitgutter'
-        Plug 'vim-pandoc/vim-pandoc'
-        Plug 'vim-pandoc/vim-pandoc-syntax'
-        " Plug 'ignon/vimwiki-obsidian-wikilinks'
-        " Plug 'plasticboy/vim-markdown'
-    call plug#end()
+  call plug#begin('~/.local/share/vim/plugins')
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim' 
+  Plug 'ap/vim-css-color'
+  Plug 'tpope/vim-commentary'
+  Plug 'itchyny/lightline.vim'
+  Plug 'shinchu/lightline-gruvbox.vim'
+  Plug 'airblade/vim-gitgutter'
+  Plug 'sainnhe/gruvbox-material'
+  Plug 'lervag/wiki.vim'
+  Plug 'yegappan/lsp'
+  call plug#end()
 
-    " colorscheme from plugins
-    "
-    let g:vim_markdown_folding_disabled = 1
-    let g:vim_markdown_frontmatter = 1
-    let g:vim_markdown_new_list_item_indent = 2
-    let g:vim_markdown_follow_anchor = 1
+  " color scheme
+  colorscheme gruvbox-material
+  let g:gruvbox_material_background = 'medium'
 
-    " Ale linter settings
-    let g:ale_completion_enabled = 1
-    set signcolumn=yes
-    let g:ale_set_signs = 1
-    let g:ale_sign_error = '>>'
-    let g:ale_sign_warning = '--'
-    let g:ale_sign_info = '!'
+  " FZF
+  nnoremap <leader>ff :Files<CR>
+  nnoremap <leader>fg :GFiles<CR>
+  nnoremap <leader>fs :Rg!
 
-    nmap gd :ALEGoToDefinition<CR>
-    nmap K :ALEHover<CR>
-
-    let g:ale_fixers = {
-    \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-    \   'javascript': ['prettier','eslint'],
-    \   'javascriptreact': ['prettier','eslint'],
-    \    'typescript': ['prettier', 'tslint'],
-    \    'scss': ['prettier'],
-    \    'html': ['prettier'],
-    \}
-
-    let g:ale_fix_on_save = 1
-    " let g:ale_completion_enabled = 1
-    " let g:ale_lint_on_enter = 1
-    " let g:ale_lint_on_text_changed = 'never'
-    " let g:ale_lint_on_insert_leave = 1
-    let g:ale_lint_on_save = 1
-    let g:ale_hover_to_floating_preview = 1
-    let g:ale_floating_preview = 1
-
-    let g:ale_virtualtext_cursor = 'disabled'
-
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-    nnoremap <leader>] :ALENextWrap<CR>     " move to the next ALE warning / error
-    nnoremap <leader>[ :ALEPrevious<CR> " move to the previous ALE warning / error
-
-    " FZF
-    nnoremap <leader>ff :Files<CR>
-    nnoremap <leader>fg :GFiles<CR>
-    nnoremap <leader>fs :Rg!
-
-    " Lightline
-    set laststatus=2
-    let g:lightline = {
-      \ 'colorscheme': '16color',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'FugitiveHead'
-      \ },
-      \ }
+  " Lightline
+  set laststatus=2
+  let g:lightline = {
+        \ 'colorscheme': 'gruvbox',
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ],
+        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+        \ },
+        \ 'component_function': {
+        \   'gitbranch': 'FugitiveHead'
+        \ },
+        \ }
+  " Wiki 
+  let g:wiki_root = expand("%:p:h")
+  let g:wiki_filetypes=["md"]
+  let g:wiki_link_target_type='md'
+  let g:wiki_mappings_use_defaults='all'
+  let g:wiki_mappings_local = {
+        \ '<plug>(wiki-journal-prev)' : '<c-h>',
+        \ '<plug>(wiki-journal-next)' : '<c-l>',
+        \}
+  call wiki#init#option('wiki_index_name', 'contents')
+  call wiki#init#option('wiki_journal', {
+        \ 'name' : 'journals',
+        \ 'root' : '',
+        \ 'frequency' : 'daily',
+        \ 'date_format' : {
+        \   'daily' : '%Y_%m_%d',
+        \   'weekly' : '%Y_w%V',
+        \   'monthly' : '%Y_m%m',
+        \ },
+        \})
 endif
 
 " ####################### Vi Compatible (~/.exrc) #######################
@@ -143,9 +119,9 @@ set showmode
 " set autoindent cedit=
 
 "########################### General  ##################################
- " vim hardcodes background color erase even if the terminfo file does not contain bce (not to
- " mention that libvte based terminals incorrectly contain bce in their terminfo files). This causes
- " incorrect background rendering when using a color theme with a background color.
+" vim hardcodes background color erase even if the terminfo file does not contain bce (not to
+" mention that libvte based terminals incorrectly contain bce in their terminfo files). This causes
+" incorrect background rendering when using a color theme with a background color.
 let &t_ut=''
 " disable annoying paste mode
 set nopaste
@@ -180,7 +156,8 @@ set ttyfast
 set nospell
 
 "########################### File types ################################
-" Setup for C and Python
+autocmd BufNewFile,BufRead *.py set filetype=python 
+"Setup for C and Python
 au FileType c,cpp,python set tabstop=4
 au FileType c,cpp,python set shiftwidth=4
 " Force header files to be C files
@@ -244,6 +221,48 @@ let g:netrw_list_hide= '.*\.swp$,.*\.DS_Store'
 
 " set ripgrep as default grep
 if executable("rg")
-    set grepprg=rg\ --vimgrep\ --ignore-case\ --no-heading
-    set grepformat=%f:%l:%c:%m,%f:%l:%m
+  set grepprg=rg\ --vimgrep\ --ignore-case\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
+"################### Language Server Settings ##########################
+" Set LSP options
+let lspOpts = #{autoHighlightDiags: v:true}
+autocmd User LspSetup call LspOptionsSet(lspOpts)
+
+" Define all your language servers in one list
+let lspServers = [
+  \ #{
+  \   name: 'clang',
+  \   filetype: ['c', 'cpp'],
+  \   path: '/usr/bin/clangd',
+  \   args: ['--background-index']
+  \ },
+  \ #{
+  \   name: 'typescriptlang',
+  \   filetype: ['javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
+  \   path: '/opt/homebrew/bin/typescript-language-server',
+  \   args: ['--stdio']
+  \ },
+  \ #{
+  \   name: 'vimls',
+  \   filetype: ['vim'],
+  \   path: '/Users/martin/.yarn/bin/vim-language-server',
+  \   args: ['--stdio']
+  \ },
+	\ #{
+  \   name: 'bashls',
+  \   filetype: ['sh'],
+  \   path: '/Users/martin/.yarn/bin/bash-language-server',
+  \   args: ['start']
+  \ },
+  \ #{
+  \   name: 'pylsp',
+  \   filetype: ['python'],
+  \   path: '/opt/homebrew/bin/pylsp',
+  \   args: []
+  \ }
+  \]
+
+"Add all servers at once
+autocmd User LspSetup call LspAddServer(lspServers)
