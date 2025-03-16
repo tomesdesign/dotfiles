@@ -45,6 +45,9 @@ alias cdt="cd $GHUSER/dotfiles"
 alias cz="cd $ZET"
 alias zf="cz && ff"
 
+# Download videos
+alias yd="yt-dlp"
+
 # alias vi="nvim"
 #alias vim="nvim"
 
