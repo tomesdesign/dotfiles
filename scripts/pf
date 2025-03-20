@@ -1,0 +1,132 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+# Finds files in a current directory and opens in VIM.
+# Opening in home folder (or another big directory) causes performance
+# issues.
+#
+# TODO: Exclude more so that it could be used in big directories
+
+my $dir = ".";
+
+# Set directory from argument if provided
+if (@ARGV == 1) {
+    print "$ARGV[0]\n";
+    $dir = $ARGV[0];
+}
+
+# Find all files recursively
+my @files;
+open(my $find_cmd, '-|', "git ls-files --cached --others --exclude-standard $dir 2>/dev/null") or die "Failed to run git ls-files: $!";
+while (my $file = <$find_cmd>) {
+    chomp $file;
+    push @files, $file if -f $file;
+}
+close($find_cmd);
+
+# Also find hidden files that git might ignore
+open(my $find_hidden, '-|', "find $dir -type f -name '.*' 2>/dev/null") or die "Failed to run find: $!";
+while (my $file = <$find_hidden>) {
+    chomp $file;
+    push @files, $file if -f $file;
+}
+close($find_hidden);
+
+# Remove duplicates
+my %seen;
+@files = grep { !$seen{$_}++ } @files;
+
+# Exit if no files found
+if (!@files) {
+    print "No files found\n";
+    exit 1;
+}
+
+# Interactive file selection with fzf-like behavior using a simple prompt
+my $selected_file = "";
+if (-t STDIN && -t STDOUT) {  # Only run interactive mode if in a terminal
+    print "Select a file (type part of filename, use arrows, press Enter):\n";
+    my $counter = 0;
+    my @visible_files = @files;
+    my $search_term = "";
+    my $selected_index = 0;
+    
+    system("stty -echo");  # Turn off echo
+    system("stty -icanon");  # Turn off canonical mode
+    
+    while (1) {
+        system("clear");
+        if ($search_term ne "") {
+            @visible_files = grep { $_ =~ /$search_term/i } @files;
+        } else {
+            @visible_files = @files;
+        }
+        
+        if (@visible_files == 0) {
+            print "No matching files. Search: $search_term\n";
+            $selected_index = 0;
+        } else {
+            $selected_index = 0 if $selected_index >= @visible_files;
+            
+            my $start = $selected_index - 10;
+            $start = 0 if $start < 0;
+            my $end = $start + 20;
+            $end = $#visible_files if $end > $#visible_files;
+            
+            print "Search: $search_term\n";
+            for (my $i = $start; $i <= $end; $i++) {
+                if ($i == $selected_index) {
+                    print "→ $visible_files[$i]\n";
+                } else {
+                    print "  $visible_files[$i]\n";
+                }
+            }
+            printf "[Showing %d of %d files]\n", scalar(@visible_files), scalar(@files);
+        }
+        
+        my $key = getc(STDIN);
+        my $ord = ord($key);
+        
+        if ($ord == 13) {  # Enter key
+            if (@visible_files > 0) {
+                $selected_file = $visible_files[$selected_index];
+                last;
+            }
+        } elsif ($ord == 127 || $ord == 8) {  # Backspace
+            $search_term = substr($search_term, 0, -1) if length($search_term) > 0;
+        } elsif ($ord == 27) {  # Escape sequence
+            my $next_key = getc(STDIN);
+            if (ord($next_key) == 91) {  # [
+                my $arrow = getc(STDIN);
+                if (ord($arrow) == 65) {  # Up arrow
+                    $selected_index-- if $selected_index > 0;
+                } elsif (ord($arrow) == 66) {  # Down arrow
+                    $selected_index++ if $selected_index < $#visible_files;
+                }
+            }
+        } elsif ($ord == 3 || $ord == 4) {  # Ctrl+C or Ctrl+D
+            system("stty echo");
+            system("stty icanon");
+            exit 1;
+        } elsif ($ord >= 32 && $ord <= 126) {  # Printable characters
+            $search_term .= $key;
+        }
+    }
+    
+    system("stty echo");
+    system("stty icanon");
+} else {
+    # Non-interactive mode, just take the first file
+    $selected_file = $files[0];
+}
+
+# Exit if no file was selected
+if ($selected_file eq "") {
+    print "No file selected\n";
+    exit 1;
+}
+
+# Open the selected file in vim
+system("vim", "$selected_file");

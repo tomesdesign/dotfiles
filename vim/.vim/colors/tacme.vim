@@ -2,18 +2,6 @@ hi clear
 syntax reset
 let g:colors_name = "tacme"
 
-" This scheme is based on Acme & Plan9.
-" In keeping with Acme, it doesn't do syntax highlighting.
-" Instead, colors are (almost) only used to define vim's interface.
-" Made by Oliver Taylor <olivertaylor.net>.
-"
-" It requires your terminal theme to be set to matching colors.
-"
-" The general philosophy for terminal colors
-" is that the 2 darkest shades are handled by your terminal
-" (which can typically do true colors)
-" and the lightest are handled in 256.
-
 " {{{ Define colors
 " *********************************************************
 

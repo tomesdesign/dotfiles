@@ -227,42 +227,67 @@ endif
 
 "################### Language Server Settings ##########################
 " Set LSP options
-let lspOpts = #{autoHighlightDiags: v:true}
+let lspOpts = #{
+      \ autoHighlightDiags: v:true,
+      \   diagSignErrorText: '🔥',
+      \   diagSignHintText: '💡',
+      \   diagSignInfoText: '✨',
+      \   diagSignWarningText: '❗️',
+      \}
 autocmd User LspSetup call LspOptionsSet(lspOpts)
 
 " Define all your language servers in one list
 let lspServers = [
-  \ #{
-  \   name: 'clang',
-  \   filetype: ['c', 'cpp'],
-  \   path: '/usr/bin/clangd',
-  \   args: ['--background-index']
-  \ },
-  \ #{
-  \   name: 'typescriptlang',
-  \   filetype: ['javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
-  \   path: '/opt/homebrew/bin/typescript-language-server',
-  \   args: ['--stdio']
-  \ },
-  \ #{
-  \   name: 'vimls',
-  \   filetype: ['vim'],
-  \   path: '/Users/martin/.yarn/bin/vim-language-server',
-  \   args: ['--stdio']
-  \ },
-	\ #{
-  \   name: 'bashls',
-  \   filetype: ['sh'],
-  \   path: '/Users/martin/.yarn/bin/bash-language-server',
-  \   args: ['start']
-  \ },
-  \ #{
-  \   name: 'pylsp',
-  \   filetype: ['python'],
-  \   path: '/opt/homebrew/bin/pylsp',
-  \   args: []
-  \ }
-  \]
-
+      \ #{
+      \   name: 'clang',
+      \   filetype: ['c', 'cpp'],
+      \   path: '/usr/bin/clangd',
+      \   args: ['--background-index']
+      \ },
+      \ #{
+      \   name: 'typescriptlang',
+      \   filetype: ['javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
+      \   path: '/opt/homebrew/bin/typescript-language-server',
+      \   args: ['--stdio']
+      \ },
+      \ #{
+      \   name: 'vimls',
+      \   filetype: ['vim'],
+      \   path: '/Users/martin/.yarn/bin/vim-language-server',
+      \   args: ['--stdio']
+      \ },
+      \ #{
+      \   name: 'bashls',
+      \   filetype: ['sh'],
+      \   path: '/Users/martin/.yarn/bin/bash-language-server',
+      \   args: ['start']
+      \ },
+      \ #{
+      \   name: 'pylsp',
+      \   filetype: ['python'],
+      \   path: '/opt/homebrew/bin/pylsp',
+      \   args: []
+      \ },
+      \ #{
+      \   name: 'rustanalyzer',
+      \   filetype: ['rust'],
+      \   path: '/Users/martin/.cargo/bin/rust-analyzer',
+      \   args: [],
+      \   syncInit: v:true,
+      \   initializationOptions: #{
+      \    inlayHints: #{
+      \      typeHints: #{
+      \        enable: v:true
+      \      },
+      \      parameterHints: #{
+      \        enable: v:true
+      \      }
+      \    },
+      \  },
+      \ }
+      \]
 "Add all servers at once
 autocmd User LspSetup call LspAddServer(lspServers)
+
+" Key Bindings
+nnoremap K :LspHover<CR>

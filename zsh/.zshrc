@@ -6,6 +6,12 @@ echo -e '\e[2 q'
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
+# Force FZF (including fzf.vim) use fd and its ignore
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow"
+
+# rg (Ripgrep) config
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
+
 # Enable colors and change prompt:cr
 autoload -U colors && colors
 
@@ -22,9 +28,10 @@ export TERM=xterm-256color
 
 ## repos
 export REPOS="$HOME/repos"
-export GHUSER="$REPOS/martin-tomes"
+# export GHUSER="$REPOS/martin-tomes"
 export ICLOUD="$HOME/Library/Mobile\ Documents/"
-export ZET="$ICLOUD/iCloud~com~logseq~logseq/Documents"
+export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
+export ZET="$ICLOUD/iCloud~md~obsidian/Documents/zet"
 
 export EDITOR="vim"
 
@@ -40,10 +47,15 @@ export LESSHISTFILE=-
 
 # ~~~~~~~~~~~~~~~ Aliases ~~~~~~~~~~~~~~~~~~~~~~~~
 alias cr="cd $REPOS"
-alias cgh="cd $GHUSER"
-alias cdt="cd $GHUSER/dotfiles"
+# alias cgh="cd $GHUSER"
+alias cdt="cd $REPOS/dotfiles"
+alias clq="cd $LOGSEQ"
+alias lqf="clq && ff"
+alias cfg="cd $HOME/.config && ff"
 alias cz="cd $ZET"
 alias zf="cz && ff"
+alias zfs="cz && fs"
+
 
 # Download videos
 alias yd="yt-dlp"
@@ -126,3 +138,4 @@ bindkey -M menuselect 'j' vi-down-line-or-history
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 source <(fzf --zsh)
+source "$HOME/.cargo/env"
