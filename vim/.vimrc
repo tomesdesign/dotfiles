@@ -31,6 +31,9 @@ filetype indent on
 set autoread
 au FocusGained,BufEnter * silent! checktime
 
+" better ascii friendly listchars
+set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
+
 
 " ########################### EXTERNAL PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
@@ -46,6 +49,9 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   Plug 'sainnhe/gruvbox-material'
   Plug 'lervag/wiki.vim'
   Plug 'yegappan/lsp'
+  Plug 'fatih/vim-go'
+  Plug 'vim-pandoc/vim-pandoc'
+  Plug 'rwxrob/vim-pandoc-syntax-simple'
   call plug#end()
 
   " color scheme
@@ -89,6 +95,35 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         \   'monthly' : '%Y_m%m',
         \ },
         \})
+  " pandoc
+  let g:pandoc#formatting#mode = 'h' " A'
+  let g:pandoc#formatting#textwidth = 72
+  " golang
+  let g:go_fmt_fail_silently = 0
+  "let g:go_fmt_options = '-s'
+  let g:go_fmt_command = 'goimports'
+  let g:go_fmt_autosave = 1
+  let g:go_gopls_enabled = 1
+  let g:go_highlight_types = 1
+  let g:go_highlight_fields = 1
+  let g:go_highlight_functions = 1
+  let g:go_highlight_function_calls = 1
+  let g:go_highlight_operators = 1
+  let g:go_highlight_extra_types = 1
+  let g:go_highlight_variable_declarations = 1
+  let g:go_highlight_variable_assignments = 1
+  let g:go_highlight_build_constraints = 1
+  let g:go_highlight_diagnostic_errors = 1
+  let g:go_highlight_diagnostic_warnings = 1
+  let g:go_code_completion_enabled = 1
+  let g:go_doc_popup_window = 1
+  let g:go_auto_sameids = 0
+  let g:go_def_mode='gopls'
+  let g:go_info_mode='gopls'
+  set updatetime=100
+  " enable omni-completion
+  " set omnifunc=syntaxcomplete#Complete
+  " imap <tab><tab> <c-x><c-o>
 endif
 
 " ####################### Vi Compatible (~/.exrc) #######################
@@ -157,11 +192,16 @@ set nospell
 
 "########################### File types ################################
 autocmd BufNewFile,BufRead *.py set filetype=python 
+autocmd BufNewFile,BufRead *.go set filetype=go
 "Setup for C and Python
 au FileType c,cpp,python set tabstop=4
 au FileType c,cpp,python set shiftwidth=4
 " Force header files to be C files
 au bufnewfile,bufRead *.h set ft=c,cpp
+
+" common go macros
+au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
+au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
@@ -284,8 +324,15 @@ let lspServers = [
       \      }
       \    },
       \  },
+      \ },
+      \ #{
+      \   name: 'gopls',
+      \   filetype: 'go',
+      \   path: '/Users/martin/go/bin/gopls',
+      \   args: ['serve']
       \ }
       \]
+
 "Add all servers at once
 autocmd User LspSetup call LspAddServer(lspServers)
 

@@ -16,6 +16,11 @@ export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
 autoload -U colors && colors
 
 # Set PATH
+# Go language
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export GOPROXY="direct"
+
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 # Make terminal default 258 colors
@@ -55,6 +60,8 @@ alias cfg="cd $HOME/.config && ff"
 alias cz="cd $ZET"
 alias zf="cz && ff"
 alias zfs="cz && fs"
+
+alias mkdir="mkdir -p"
 
 
 # Download videos
