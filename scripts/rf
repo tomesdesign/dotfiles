@@ -1,0 +1,112 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+sub print_usage {
+    my $script_name = $0;
+    print <<"END";
+Usage: $script_name "string" [-r] [DIRECTORY]
+Delete all files containing the specified string in their filenames from the directory.
+
+Options:
+  -h, --help        Show this help message and exit
+  -r                Recursively delete files in subdirectories
+
+Examples:
+  $script_name "Name Clash" /path/to/dir    # Delete files in specified dir only
+  $script_name "2025" -r                    # Delete files recursively in current dir
+
+Arguments:
+  "string"          String to match in filenames (required, in quotes)
+  DIRECTORY         Directory to search (optional, defaults to current dir)
+
+The search string must be enclosed in quotes
+END
+    exit 0;
+}
+
+# Process file deletion in a directory
+sub process_directory {
+    my ($dir, $pattern, $recursive) = @_;
+    my $deleted_count = 0;
+
+    opendir(my $dh, $dir) or die "Cannot open directory '$dir': $!\n";
+    
+    while (my $file = readdir($dh)) {
+        next if $file eq '.' || $file eq '..';
+        
+        my $full_path = "$dir$file";
+        
+        print "Checking: '$full_path'\n";
+        
+        if (-f $full_path) {
+            if (index($file, $pattern) != -1) {
+                print "Match found: '$full_path'\n";
+                if (unlink($full_path)) {
+                    print "Deleted: '$full_path'\n";
+                    $deleted_count++;
+                } else {
+                    warn "Failed to delete '$full_path': $!\n";
+                }
+            }
+        } elsif (-d $full_path && $recursive) {
+            $deleted_count += process_directory("$full_path/", $pattern, $recursive);
+        }
+    }
+    
+    closedir($dh);
+    return $deleted_count;
+}
+
+# Default values
+my $DIR = ".";
+my $search_string;
+my $recursive = 0;
+
+# Process command line arguments
+unless (@ARGV) {
+    die "Error: Search string is required\nExample: $0 \"pattern\"\nUse -h for help\n";
+}
+
+$search_string = shift @ARGV;  # First argument is the required search string
+
+while (@ARGV) {
+    my $arg = shift @ARGV;
+    if ($arg eq '-h' || $arg eq '--help') {
+        print_usage();
+    } elsif ($arg eq '-r') {
+        $recursive = 1;
+    } elsif ($arg =~ /^-/) {
+        die "Unknown option: $arg\nUse -h or --help for usage information\n";
+    } elsif (@ARGV) {
+        die "Too many arguments: $arg\nUse -h or --help for usage information\n";
+    } else {
+        $DIR = $arg;
+    }
+}
+
+# Ensure directory ends with a separator
+$DIR =~ s|/*$|/|;
+
+# Validate directory
+unless (-d $DIR) {
+    die "Directory '$DIR' does not exist\n";
+}
+unless (-r $DIR) {
+    die "Directory '$DIR' is not readable\n";
+}
+unless (-w $DIR) {
+    die "Directory '$DIR' is not writable\n";
+}
+
+my $pattern = $search_string;
+
+print "Searching for files containing: '$pattern'\n";
+print "In directory: '$DIR'\n";
+print "Recursive mode: " . ($recursive ? "ON" : "OFF") . "\n";
+
+my $total_deleted = process_directory($DIR, $pattern, $recursive);
+
+print "Total files deleted: $total_deleted\n";
+exit 0;
