@@ -1,15 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env sh
+
 # Setup the custom scripts
 
-ln -sf $PWD/duck $HOME/.local/bin/duck
+mkdir -p $HOME/.local/bin
+
 ln -sf $PWD/gpt $HOME/.local/bin/gpt
-ln -sf $PWD/lynx $HOME/.local/bin/lynx
-ln -sf $PWD/rss $HOME/.local/bin/rss
-ln -sf $PWD/urlencode $HOME/.local/bin/urlencode
-ln -sf $PWD/zet $HOME/.local/bin/zet
 ln -sf $PWD/ff $HOME/.local/bin/ff
 ln -sf $PWD/fs $HOME/.local/bin/fs
-ln -sf $PWD/rf $HOME/.local/bin/rf
-ln -sf $PWD/zmv $HOME/.local/bin/zmv
-ln -sf $PWD/penv $HOME/.local/bin/penv
 
