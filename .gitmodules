@@ -1,0 +1,3 @@
+[submodule "scripts/bfu"]
+	path = scripts/bfu
+	url = git@github.com:ItsMartinTomes/bfu.git
