@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 # Usage: fs [directory] [search term]
 # Example: fs . "algo"
 # If only one argument is provided, it is considered as the search term and the current directory is used.

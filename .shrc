@@ -1,8 +1,6 @@
-# If not running interactively, don't do anything
-# [[ $- != *i* ]] && return
-# Enable starship prompt
-# eval "$(starship init bash)"
-# export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+
+# eval "$(starship init sh)"
+# export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
 # ~~~~~~~~~~~~~~~ Local functions  ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -22,17 +20,9 @@ set +o posix
 # keybinds
 bind -x '"\C-l":clear'
 
-# Support gpt globally
-# declare OPENAI_API_KEY
-# OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
-# export OPENAI_API_KEY
-
 # ~~~~~~~~~~~~~~~ Exports  ~~~~~~~~~~~~~~~~~~~~~~~~
 # Make terminal default 258 colors
 export TERM=xterm-256color
-
-# Force nvim use my vimrc
-# export VIMINIT="source $HOME/.vimrc"
 
 # yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -113,24 +103,10 @@ alias fd="fd --color=always"
 # Edit rc files from everywhere
 alias vv="vim $HOME/.vimrc"
 alias vb="vim $HOME/.config/bash/.bashrc"
-alias eb="ed $HOME/.config/bash/.bashrc"
 # alias vn="nvim $HOME/.config/nvim/init.lua"
 
-# Source this file from everywhere
 alias src="source $HOME/.config/bash/.bashrc"
 
-# Make grep to be colourfull
-alias grep='grep -i --colour=auto'
-alias egrep='egrep -i --colour=auto'
-alias fgrep='fgrep -i --colour=auto'
-
-# Do not save wget history files in home foler
-alias wget="wget --hsts-file ~/dotfiles/config/wget/wget-hsts"
-
-# Point vi to real vi not vim
-alias vi="nvi"
-
-# ~~~~~~~~~~~~~~~ Others (utilities, language specifics etc) ~~~~~~~~~~~~~~~~~~~~~~~~
 # fzf
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 eval "$(fzf --bash)"
@@ -139,8 +115,6 @@ eval "$(fzf --bash)"
 source "$HOME/.cargo/env"
 
 # Custom prompt
-# from rwxrob. added newlines before all type of prompts (long, short, double)
-# for better readability
 
 PROMPT_LONG=20
 PROMPT_MAX=95
@@ -164,9 +138,9 @@ __ps1() {
 	[[ $B == master || $B == main ]] && b="$r"
 	[[ -n "$B" ]] && B="$g($b$B$g)"
 
-	short="\n$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
-	long="\n${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n${g}╚$p$P$x "
-	double="\n${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir\n${g}║$B\n${g}╚$p$P$x "
+	short="$u\u$g$PROMPT_AT$h\h$g:$w$dir$B$p$P$x "
+	long="${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir$B\n${g}╚$p$P$x "
+	double="${g}╔$u\u$g$PROMPT_AT$h\h$g:$w$dir\n${g}║$B\n${g}╚$p$P$x "
 
 	if ((${#countme} > PROMPT_MAX)); then
 		PS1="$double"

@@ -25,6 +25,9 @@ export PATH="$HOME/.local/bin:$PATH"
 # Make terminal default 258 colors
 export TERM=xterm-256color
 
+# Rancher desktop
+export PATH="$HOME/.rd/bin:$PATH"
+
 # Support gpt globally
 #declare OPENAI_API_KEY
 #OPENAI_API_KEY="$(head -1 "$HOME/.config/gpt/token")"
@@ -70,7 +73,7 @@ alias yd="yt-dlp"
 
 alias src="source $HOME/.config/zsh/.zshrc"
 
-alias raspi="ssh raspibolt"
+alias raspi="ssh raspi"
 
 alias cat="bat -p"
 

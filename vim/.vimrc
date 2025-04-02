@@ -3,8 +3,9 @@
 " https://github.com/rwxrob/dot/blob/main/vim/.vimrc
 
 " Do not mess the home folder
-set viminfofile=~/.vim/viminfo
-
+" set viminfofile=~/.vim/viminfo
+" Creating viminfo files causes problems when using vim and nvim together
+set viminfo=
 
 syntax enable
 
@@ -34,6 +35,10 @@ au FocusGained,BufEnter * silent! checktime
 " better ascii friendly listchars
 set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 
+let g:ale_completion_enabled = 1
+set omnifunc=ale#completion#OmniFunc
+set completeopt=menuone
+set completeopt-=preview
 
 " ########################### EXTERNAL PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
@@ -47,11 +52,15 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   Plug 'shinchu/lightline-gruvbox.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'sainnhe/gruvbox-material'
-  Plug 'lervag/wiki.vim'
-  Plug 'yegappan/lsp'
+  " Plug 'lervag/wiki.vim'
+  " Plug 'yegappan/lsp'
   Plug 'fatih/vim-go'
   Plug 'vim-pandoc/vim-pandoc'
   Plug 'rwxrob/vim-pandoc-syntax-simple'
+  Plug 'dense-analysis/ale'
+  if has('nvim')
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  endif
   call plug#end()
 
   " color scheme
@@ -76,25 +85,25 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         \ },
         \ }
   " Wiki 
-  let g:wiki_root = expand("%:p:h")
-  let g:wiki_filetypes=["md"]
-  let g:wiki_link_target_type='md'
-  let g:wiki_mappings_use_defaults='all'
-  let g:wiki_mappings_local = {
-        \ '<plug>(wiki-journal-prev)' : '<c-h>',
-        \ '<plug>(wiki-journal-next)' : '<c-l>',
-        \}
-  call wiki#init#option('wiki_index_name', 'contents')
-  call wiki#init#option('wiki_journal', {
-        \ 'name' : 'journals',
-        \ 'root' : '',
-        \ 'frequency' : 'daily',
-        \ 'date_format' : {
-        \   'daily' : '%Y_%m_%d',
-        \   'weekly' : '%Y_w%V',
-        \   'monthly' : '%Y_m%m',
-        \ },
-        \})
+  " let g:wiki_root = expand("%:p:h")
+  " let g:wiki_filetypes=["md"]
+  " let g:wiki_link_target_type='md'
+  " let g:wiki_mappings_use_defaults='all'
+  " let g:wiki_mappings_local = {
+  "       \ '<plug>(wiki-journal-prev)' : '<c-h>',
+  "       \ '<plug>(wiki-journal-next)' : '<c-l>',
+  "       \}
+  " call wiki#init#option('wiki_index_name', 'contents')
+  " call wiki#init#option('wiki_journal', {
+  "       \ 'name' : 'journals',
+  "       \ 'root' : '',
+  "       \ 'frequency' : 'daily',
+  "       \ 'date_format' : {
+  "       \   'daily' : '%Y_%m_%d',
+  "       \   'weekly' : '%Y_w%V',
+  "       \   'monthly' : '%Y_m%m',
+  "       \ },
+  "       \})
   " pandoc
   let g:pandoc#formatting#mode = 'h' " A'
   let g:pandoc#formatting#textwidth = 72
@@ -124,6 +133,30 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   " enable omni-completion
   " set omnifunc=syntaxcomplete#Complete
   " imap <tab><tab> <c-x><c-o>
+
+  " ale
+  set signcolumn=yes
+  let g:ale_set_signs = 1
+  let g:ale_sign_info = '✨'
+  let g:ale_sign_error = '🔥'
+  let g:ale_sign_warning = '❗️'
+  let g:ale_sign_hint = '💡'
+
+  let g:ale_linters = {
+        \'go': ['gometalinter','gofmt','gobuild'],
+        \'perl': ['perl','perlcritic'],
+        \}
+  let g:ale_linter_aliases = {'bash': 'sh'}
+  let g:ale_perl_perlcritic_options = '--severity 3'
+
+  let g:ale_fixers = {
+        \'sh': ['shfmt'],
+        \'bash': ['shfmt'],
+        \'perl': ['perltidy'],
+        \}
+  let g:ale_fix_on_save = 1
+  let g:ale_perl_perltidy_options = '-b'
+  
 endif
 
 " ####################### Vi Compatible (~/.exrc) #######################
@@ -131,17 +164,11 @@ endif
 " number of spaces to replace a tab with
 set tabstop=2
 set shiftwidth=2
-" use smartcase when searching
 set ignorecase
-set smartcase
-set smarttab
 " automatically write files when changing when multiple files open
 set autowrite
 " activate line numbers
 set number
-set relativenumber
-" turn col and row position on in bottom right
-set ruler " see ruf for formatting
 " show command and insert mode
 set showmode
 " uncomment this for vi
@@ -158,6 +185,13 @@ set showmode
 " mention that libvte based terminals incorrectly contain bce in their terminfo files). This causes
 " incorrect background rendering when using a color theme with a background color.
 let &t_ut=''
+" use smartcase when searching
+set smartcase
+set smarttab
+" Set relative number
+set relativenumber
+" turn col and row position on in bottom right
+set ruler " see ruf for formatting
 " disable annoying paste mode
 set nopaste
 " Always show current position
@@ -193,9 +227,9 @@ set nospell
 "########################### File types ################################
 autocmd BufNewFile,BufRead *.py set filetype=python 
 autocmd BufNewFile,BufRead *.go set filetype=go
-"Setup for C and Python
-au FileType c,cpp,python set tabstop=4
-au FileType c,cpp,python set shiftwidth=4
+"Setup for C, Python, Go, Perl
+au FileType c,cpp,python,go,perl set tabstop=4
+au FileType c,cpp,python,go,perl set shiftwidth=4
 " Force header files to be C files
 au bufnewfile,bufRead *.h set ft=c,cpp
 
@@ -238,10 +272,14 @@ nnoremap <leader>k :cp<CR>
 " Fixing ctrl ergonomy
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
-
+" Trigger the auto completion with tab 2x
+imap <tab><tab> <c-x><c-o>
 
 
 "##################### Do things without plugins #######################
+" INTELLISENSE enable omni-completion
+" set omnifunc=syntaxcomplete#Complete
+" imap <tab><tab> <c-x><c-o>
 
 "" FILES HANDLING
 " hit tab to :find by partial match
@@ -267,74 +305,74 @@ endif
 
 "################### Language Server Settings ##########################
 " Set LSP options
-let lspOpts = #{
-      \ autoHighlightDiags: v:true,
-      \   diagSignErrorText: '🔥',
-      \   diagSignHintText: '💡',
-      \   diagSignInfoText: '✨',
-      \   diagSignWarningText: '❗️',
-      \}
-autocmd User LspSetup call LspOptionsSet(lspOpts)
+" let lspOpts = #{
+"       \ autoHighlightDiags: v:true,
+"       \   diagSignErrorText: '🔥',
+"       \   diagSignHintText: '💡',
+"       \   diagSignInfoText: '✨',
+"       \   diagSignWarningText: '❗️',
+"       \}
+" autocmd User LspSetup call LspOptionsSet(lspOpts)
 
-" Define all your language servers in one list
-let lspServers = [
-      \ #{
-      \   name: 'clang',
-      \   filetype: ['c', 'cpp'],
-      \   path: '/usr/bin/clangd',
-      \   args: ['--background-index']
-      \ },
-      \ #{
-      \   name: 'typescriptlang',
-      \   filetype: ['javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
-      \   path: '/opt/homebrew/bin/typescript-language-server',
-      \   args: ['--stdio']
-      \ },
-      \ #{
-      \   name: 'vimls',
-      \   filetype: ['vim'],
-      \   path: '/Users/martin/.yarn/bin/vim-language-server',
-      \   args: ['--stdio']
-      \ },
-      \ #{
-      \   name: 'bashls',
-      \   filetype: ['sh'],
-      \   path: '/Users/martin/.yarn/bin/bash-language-server',
-      \   args: ['start']
-      \ },
-      \ #{
-      \   name: 'pylsp',
-      \   filetype: ['python'],
-      \   path: '/opt/homebrew/bin/pylsp',
-      \   args: []
-      \ },
-      \ #{
-      \   name: 'rustanalyzer',
-      \   filetype: ['rust'],
-      \   path: '/Users/martin/.cargo/bin/rust-analyzer',
-      \   args: [],
-      \   syncInit: v:true,
-      \   initializationOptions: #{
-      \    inlayHints: #{
-      \      typeHints: #{
-      \        enable: v:true
-      \      },
-      \      parameterHints: #{
-      \        enable: v:true
-      \      }
-      \    },
-      \  },
-      \ },
-      \ #{
-      \   name: 'gopls',
-      \   filetype: 'go',
-      \   path: '/Users/martin/go/bin/gopls',
-      \   args: ['serve']
-      \ }
-      \]
+" " Define all your language servers in one list
+" let lspServers = [
+"       \ #{
+"       \   name: 'clang',
+"       \   filetype: ['c', 'cpp'],
+"       \   path: '/usr/bin/clangd',
+"       \   args: ['--background-index']
+"       \ },
+"       \ #{
+"       \   name: 'typescriptlang',
+"       \   filetype: ['javascript', 'typescript', 'javascriptreact', 'typescriptreact'],
+"       \   path: '/opt/homebrew/bin/typescript-language-server',
+"       \   args: ['--stdio']
+"       \ },
+"       \ #{
+"       \   name: 'vimls',
+"       \   filetype: ['vim'],
+"       \   path: '/Users/martin/.yarn/bin/vim-language-server',
+"       \   args: ['--stdio']
+"       \ },
+"       \ #{
+"       \   name: 'bashls',
+"       \   filetype: ['sh'],
+"       \   path: '/Users/martin/.yarn/bin/bash-language-server',
+"       \   args: ['start']
+"       \ },
+"       \ #{
+"       \   name: 'pylsp',
+"       \   filetype: ['python'],
+"       \   path: '/opt/homebrew/bin/pylsp',
+"       \   args: []
+"       \ },
+"       \ #{
+"       \   name: 'rustanalyzer',
+"       \   filetype: ['rust'],
+"       \   path: '/Users/martin/.cargo/bin/rust-analyzer',
+"       \   args: [],
+"       \   syncInit: v:true,
+"       \   initializationOptions: #{
+"       \    inlayHints: #{
+"       \      typeHints: #{
+"       \        enable: v:true
+"       \      },
+"       \      parameterHints: #{
+"       \        enable: v:true
+"       \      }
+"       \    },
+"       \  },
+"       \ },
+"       \ #{
+"       \   name: 'gopls',
+"       \   filetype: 'go',
+"       \   path: '/Users/martin/go/bin/gopls',
+"       \   args: ['serve']
+"       \ }
+"       \]
 
-"Add all servers at once
-autocmd User LspSetup call LspAddServer(lspServers)
+" "Add all servers at once
+" autocmd User LspSetup call LspAddServer(lspServers)
 
-" Key Bindings
-nnoremap K :LspHover<CR>
+" " Key Bindings
+" nnoremap K :LspHover<CR>

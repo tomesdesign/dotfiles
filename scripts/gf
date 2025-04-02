@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Ed Golang Formatter
+gofmt -w "$1" 
+goimports -w "$1"

@@ -16,7 +16,7 @@
 ln -sf $PWD/alacritty/alacritty.toml $HOME/.config/alacritty/alacritty.toml
 #ln -sf $PWD/alacritty/themes/warlock.toml $HOME/.config/alacritty/themes/warlock.toml
 # ln -sf $PWD/.bash_profile $HOME/.bash_profile
-# ln -sf $PWD/.bashrc $HOME/.bashrc
+# ln -sf $PWD/.bashrc $HOME/.config/bash/.bashrc
 ln -sf $PWD/tmux/.tmux.conf $HOME/.tmux.conf
 ln -sf $PWD/vim/.vimrc $HOME/.vimrc
 # ln -sf $PWD/vim/.vim/colors/tacme.vim $HOME/.vim/colors/tacme.vim
@@ -32,3 +32,4 @@ ln -sf $PWD/wezterm/wezterm.lua $HOME/.config/wezterm/wezterm.lua
 ln -sf $PWD/fd/ignore $HOME/.config/fd/ignore
 ln -sf $PWD/rg/config $HOME/.config/rg/config
 # ln -sf $PWD/rg/.rgignore $HOME/.config/rg/.rgignore
+ln -sf $PWD/.shrc $HOME/.shrc

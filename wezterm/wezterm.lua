@@ -48,8 +48,8 @@ config.window_padding = {
     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' },
   },
   {
-    key = '-',
-    mods = 'CMD',
+    key = '\\',
+    mods = 'CMD|SHIFT',
     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' },
   },
   -- move between splits
