@@ -45,6 +45,13 @@
 .local/share
 .local/state
 .local/darkfi
+.obsidian
+
+assets
+draws
+logseq
+bak
+whiteboards
 
 Downloads
 Desktop

@@ -4,8 +4,6 @@
 
 " Do not mess the home folder
 " set viminfofile=~/.vim/viminfo
-" Creating viminfo files causes problems when using vim and nvim together
-set viminfo=
 
 syntax enable
 
@@ -14,9 +12,12 @@ set termencoding=utf-8
 set fileencodings=utf-8
 
 " Fallback colorscheme
-color retrobox
+" color retrobox
 set background=dark
 set termguicolors
+
+" Better markdown
+set conceallevel=2
 
 if has("eval")                               " vim-tiny lacks 'eval'
   let skip_defaults_vim = 1
@@ -36,9 +37,9 @@ au FocusGained,BufEnter * silent! checktime
 set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 
 let g:ale_completion_enabled = 1
-set omnifunc=ale#completion#OmniFunc
+" set omnifunc=ale#completion#OmniFunc
 set completeopt=menuone
-set completeopt-=preview
+" set completeopt-=preview
 
 " ########################### EXTERNAL PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
@@ -52,14 +53,16 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   Plug 'shinchu/lightline-gruvbox.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'sainnhe/gruvbox-material'
-  " Plug 'lervag/wiki.vim'
-  " Plug 'yegappan/lsp'
+  Plug 'yegappan/lsp'
   Plug 'fatih/vim-go'
-  Plug 'vim-pandoc/vim-pandoc'
-  Plug 'rwxrob/vim-pandoc-syntax-simple'
   Plug 'dense-analysis/ale'
   if has('nvim')
+    Plug 'hrsh7th/nvim-cmp'
+    Plug 'epwalsh/obsidian.nvim'
+    Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+    Plug 'MeanderingProgrammer/render-markdown.nvim'
+    " Plug 'lukas-reineke/indent-blankline.nvim'
   endif
   call plug#end()
 
@@ -70,43 +73,42 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   " FZF
   nnoremap <leader>ff :Files<CR>
   nnoremap <leader>fg :GFiles<CR>
-  nnoremap <leader>fs :Rg!
+  nnoremap <leader>fs :Rg<CR>
 
-  " Lightline
+ " Lightline
   set laststatus=2
   let g:lightline = {
-        \ 'colorscheme': 'gruvbox',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ],
-        \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-        \ },
-        \ 'component_function': {
-        \   'gitbranch': 'FugitiveHead'
-        \ },
-        \ }
-  " Wiki 
-  " let g:wiki_root = expand("%:p:h")
-  " let g:wiki_filetypes=["md"]
-  " let g:wiki_link_target_type='md'
-  " let g:wiki_mappings_use_defaults='all'
-  " let g:wiki_mappings_local = {
-  "       \ '<plug>(wiki-journal-prev)' : '<c-h>',
-  "       \ '<plug>(wiki-journal-next)' : '<c-l>',
-  "       \}
-  " call wiki#init#option('wiki_index_name', 'contents')
-  " call wiki#init#option('wiki_journal', {
-  "       \ 'name' : 'journals',
-  "       \ 'root' : '',
-  "       \ 'frequency' : 'daily',
-  "       \ 'date_format' : {
-  "       \   'daily' : '%Y_%m_%d',
-  "       \   'weekly' : '%Y_w%V',
-  "       \   'monthly' : '%Y_m%m',
+      \ 'colorscheme': 'gruvbox',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+  " let g:currentmode = {
+  "   \ 'n'  : 'NORMAL ',
+  "   \ 'v'  : 'VISUAL ',
+  "   \ 'V'  : 'V-LINE ',
+  "   \ 'i'  : 'INSERT ',
+  "   \ 'R'  : 'REPLACE ',
+  "   \ 'c'  : 'COMMAND ',
+  "   \}
+
+  " " Set up statusline with current mode and additional info
+  " set statusline=%#ModeColor#%{g:currentmode[mode()]}
+  " set statusline+=\ %f\ %l/%L " Filename and line numbers
+  " let g:lightline = {
+  "       \ 'colorscheme': 'acme',
+  "       \ 'active': {
+  "       \   'left': [ [ 'mode', 'paste' ],
+  "       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
   "       \ },
-  "       \})
-  " pandoc
-  let g:pandoc#formatting#mode = 'h' " A'
-  let g:pandoc#formatting#textwidth = 72
+  "       \ 'component_function': {
+  "       \   'gitbranch': 'FugitiveHead'
+  "       \ },
+  "       \ }
   " golang
   let g:go_fmt_fail_silently = 0
   "let g:go_fmt_options = '-s'
@@ -145,6 +147,7 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   let g:ale_linters = {
         \'go': ['gometalinter','gofmt','gobuild'],
         \'perl': ['perl','perlcritic'],
+        \'markdown':['lsp'],
         \}
   let g:ale_linter_aliases = {'bash': 'sh'}
   let g:ale_perl_perlcritic_options = '--severity 3'
@@ -154,6 +157,11 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
         \'bash': ['shfmt'],
         \'perl': ['perltidy'],
         \}
+  " Configure ALE to use Marksman as the LSP server
+  let g:ale_lsp_server = {
+      \ 'markdown': 'marksman',
+  \ }
+  let g:ale_set_quickfix = 1
   let g:ale_fix_on_save = 1
   let g:ale_perl_perltidy_options = '-b'
   
@@ -189,7 +197,7 @@ let &t_ut=''
 set smartcase
 set smarttab
 " Set relative number
-set relativenumber
+" set relativenumber
 " turn col and row position on in bottom right
 set ruler " see ruf for formatting
 " disable annoying paste mode
@@ -227,6 +235,10 @@ set nospell
 "########################### File types ################################
 autocmd BufNewFile,BufRead *.py set filetype=python 
 autocmd BufNewFile,BufRead *.go set filetype=go
+" Markdown
+autocmd BufNewFile,BufRead *.md set filetype=markdown
+au FileType markdown set tabstop=2
+au FileType markdown set shiftwidth=2
 "Setup for C, Python, Go, Perl
 au FileType c,cpp,python,go,perl set tabstop=4
 au FileType c,cpp,python,go,perl set shiftwidth=4
@@ -235,7 +247,10 @@ au bufnewfile,bufRead *.h set ft=c,cpp
 
 " common go macros
 au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
-au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
+" au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
+
+" turn off autointendations for org files
+autocmd FileType org setlocal noautoindent nosmartindent indentexpr=
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
@@ -368,6 +383,12 @@ endif
 "       \   filetype: 'go',
 "       \   path: '/Users/martin/go/bin/gopls',
 "       \   args: ['serve']
+"       \ },
+"       \ #{
+"       \   name: 'marksman',
+"       \   filetype: 'markdown',
+"       \   path: '/opt/homebrew/bin/marksman',
+"       \   args: ['--stdio']
 "       \ }
 "       \]
 
@@ -376,3 +397,5 @@ endif
 
 " " Key Bindings
 " nnoremap K :LspHover<CR>
+" Creating viminfo files causes problems when using vim and nvim together
+set viminfo=

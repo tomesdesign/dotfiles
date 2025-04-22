@@ -22,4 +22,4 @@ rg --color=always --line-number --no-heading --smart-case "$SEARCH_TERM" "$DIR" 
 		--delimiter : \
 		--preview 'bat --color=always {1} --highlight-line {2}' \
         --preview-window=up,70%,wrap \
-		--bind 'enter:become(vim {1} +{2})'
+		--bind 'enter:become(nvim {1} +{2})'

@@ -5,6 +5,6 @@
 mkdir -p $HOME/.local/bin
 
 ln -sf $PWD/gpt $HOME/.local/bin/gpt
-ln -sf $PWD/ff $HOME/.local/bin/ff
+ln -sf $PWD/bfu/ff $HOME/.local/bin/ff
 ln -sf $PWD/fs $HOME/.local/bin/fs
 

@@ -54,7 +54,7 @@ export SAVEHIST=25000
 export HISTCONTROL=ignorespace
 
 ## Set vim as default editor
-EDITOR="vim"
+export EDITOR="vim"
 
 ## repos
 export REPOS="$HOME/repos"
@@ -83,8 +83,9 @@ export LESSHISTFILE=-
 # Change directories to most used fodlers & search in them
 alias cr="cd $REPOS"
 alias cdt="cd $REPOS/dotfiles"
-alias clq="cd $LOGSEQ"
-alias lqf="clq && ff"
+alias cl="cd $LOGSEQ/Notes\ Engine"
+alias lf="cl && ff"
+alias lfs="cl && fs"
 alias cfg="cd $HOME/.config && ff"
 alias cz="cd $ZET"
 alias zf="cz && ff"
@@ -92,8 +93,23 @@ alias zfs="cz && fs"
 
 # Files handling
 alias mkdir="mkdir -p"
-alias ls="eza -lla --group-directories-first"
-alias cat="bat -p"
+# alias ls="eza -lla --group-directories-first"
+# alias ls="ls -lah"
+# alias cat="bat -p"
+
+# if command -v eza &>/dev/null; then
+# 	alias ls="eza -lla --group-directories-first"
+# else
+# 	alias ls="ls -lah"
+# fi
+
+# Use GNU ls instead of BSD so that we can group directiories
+alias ls="gls -lah --group-directories-first"
+
+# Check if 'bat' is installed
+# if command -v bat &>/dev/null; then
+# 	alias cat="bat -p"
+# fi
 
 # re-source the bash
 alias src="source $HOME/.config/bash/.bashrc"
@@ -105,7 +121,8 @@ alias raspi="ssh raspi"
 alias python="python3"
 
 # gdiff
-alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-dark"
+# alias gdiff="git diff --name-only --relative --diff-filter=d | xargs bat --diff --theme=gruvbox-light"
+alias gdiff="git diff | view -"
 
 # Find in directory
 alias fd="fd --color=always"
@@ -120,15 +137,17 @@ alias eb="ed $HOME/.config/bash/.bashrc"
 alias src="source $HOME/.config/bash/.bashrc"
 
 # Make grep to be colourfull
-alias grep='grep -i --colour=auto'
-alias egrep='egrep -i --colour=auto'
-alias fgrep='fgrep -i --colour=auto'
+alias grep='grep -i -H -n --colour=auto'
+alias egrep='egrep -i -H -n --colour=auto'
+alias fgrep='fgrep -i -H -n --colour=auto'
 
 # Do not save wget history files in home foler
 alias wget="wget --hsts-file ~/dotfiles/config/wget/wget-hsts"
 
 # Point vi to real vi not vim
 alias vi="nvi"
+# Point ex to real ex not vim
+alias ex="nvi -e"
 
 # ~~~~~~~~~~~~~~~ Others (utilities, language specifics etc) ~~~~~~~~~~~~~~~~~~~~~~~~
 # fzf

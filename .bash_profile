@@ -18,3 +18,7 @@ if [ -r ~/.config/bash/.bashrc ]; then
 fi
 
 stty -ixon
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/martin/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
