@@ -1,0 +1,1 @@
+A standard for describing cloud infrastructure services

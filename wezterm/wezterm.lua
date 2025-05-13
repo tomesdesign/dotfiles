@@ -61,7 +61,10 @@ config.window_close_confirmation = 'NeverPrompt'
 -- }
 
 -- term
-config.term = "xterm-256color"
+-- config.term = "xterm-256color"
+config.term = "xterm-kitty" -- we want kitty protocol to support images
+config.	enable_kitty_graphics = true
+max_fps = 120
 -- window size
 config.initial_cols = 100
 config.initial_rows = 60

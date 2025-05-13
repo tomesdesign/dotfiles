@@ -46,6 +46,7 @@
 .local/state
 .local/darkfi
 .obsidian
+*.png
 
 assets
 draws

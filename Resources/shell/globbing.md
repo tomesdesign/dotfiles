@@ -1,0 +1,2 @@
+**Globbing** is the shell's process of expanding wildcard characters (like `*`, `?`, `[...]`) into matching filenames or paths before executing a command. For example, `*.txt` expands to all files ending with `.txt` in the current directory
+While useful, globbing can lead to unintended behavior or security vulnerabilities if not handled carefully.

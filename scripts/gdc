@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+# Git add
+git add .
+
+# And comit with timestamp
+git commit -m "$(date +"%Y-%m-%d %H:%M:%S")"

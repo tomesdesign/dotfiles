@@ -3,7 +3,7 @@
 " https://github.com/rwxrob/dot/blob/main/vim/.vimrc
 
 " Do not mess the home folder
-" set viminfofile=~/.vim/viminfo
+set viminfofile=~/.vim/viminfo
 
 syntax enable
 
@@ -36,24 +36,19 @@ au FocusGained,BufEnter * silent! checktime
 " better ascii friendly listchars
 set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 
-let g:ale_completion_enabled = 1
-" set omnifunc=ale#completion#OmniFunc
-set completeopt=menuone
-" set completeopt-=preview
-
 " ########################### EXTERNAL PLUGINS ###################################
 if filereadable(expand("~/.vim/autoload/plug.vim"))
   call plug#begin('~/.local/share/vim/plugins')
   Plug 'jiangmiao/auto-pairs'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim' 
+  " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  " Plug 'junegunn/fzf.vim' 
   Plug 'ap/vim-css-color'
   Plug 'tpope/vim-commentary'
   Plug 'itchyny/lightline.vim'
   Plug 'shinchu/lightline-gruvbox.vim'
   Plug 'airblade/vim-gitgutter'
   Plug 'sainnhe/gruvbox-material'
-  Plug 'yegappan/lsp'
+  " Plug 'yegappan/lsp'
   Plug 'fatih/vim-go'
   Plug 'dense-analysis/ale'
   if has('nvim')
@@ -62,7 +57,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
     Plug 'nvim-lua/plenary.nvim'
     Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
     Plug 'MeanderingProgrammer/render-markdown.nvim'
-    " Plug 'lukas-reineke/indent-blankline.nvim'
   endif
   call plug#end()
 
@@ -170,9 +164,9 @@ endif
 " ####################### Vi Compatible (~/.exrc) #######################
 " Copy this settings into ~/.exrc on a system where VIM is not available
 " number of spaces to replace a tab with
-set tabstop=2
-set shiftwidth=2
-set ignorecase
+set tabstop=4
+set shiftwidth=4
+" set ignorecase
 " automatically write files when changing when multiple files open
 set autowrite
 " activate line numbers
@@ -194,12 +188,12 @@ set showmode
 " incorrect background rendering when using a color theme with a background color.
 let &t_ut=''
 " use smartcase when searching
-set smartcase
+" set smartcase
 set smarttab
 " Set relative number
 " set relativenumber
 " turn col and row position on in bottom right
-set ruler " see ruf for formatting
+" set ruler " see ruf for formatting
 " disable annoying paste mode
 set nopaste
 " Always show current position
@@ -233,24 +227,12 @@ set ttyfast
 set nospell
 
 "########################### File types ################################
-autocmd BufNewFile,BufRead *.py set filetype=python 
-autocmd BufNewFile,BufRead *.go set filetype=go
 " Markdown
-autocmd BufNewFile,BufRead *.md set filetype=markdown
-au FileType markdown set tabstop=2
-au FileType markdown set shiftwidth=2
-"Setup for C, Python, Go, Perl
-au FileType c,cpp,python,go,perl set tabstop=4
-au FileType c,cpp,python,go,perl set shiftwidth=4
+" autocmd BufNewFile,BufRead *.md set filetype=markdown
+" au FileType markdown set tabstop=2
+" au FileType markdown set shiftwidth=2
 " Force header files to be C files
 au bufnewfile,bufRead *.h set ft=c,cpp
-
-" common go macros
-au FileType go nmap <leader>m ilog.Print("made")<CR><ESC>
-" au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
-
-" turn off autointendations for org files
-autocmd FileType org setlocal noautoindent nosmartindent indentexpr=
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
@@ -264,34 +246,30 @@ nnoremap <leader>n :bnext<CR>
 nnoremap <leader>p :bprevious<CR>
 " better list and change buffers
 nnoremap <leader>l :ls<CR>:b<space>
-" Save
-nmap <leader>s :w!<cr>
 " Copy into clipboard
 vnoremap <leader>c "+y
 nnoremap <leader>c "+y
-" use :f instead of :find
-cabbrev f find
-" Moving lines in visual mode
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '>-2<CR>gv=gv
-" Find files in path
-" nnoremap <leader>ff :find<space>
-" Find strings in files in path
-" nnoremap <leader>fs :grep<space>
-" disable search highlighting with <C-L> when refreshing screen
-nnoremap <C-L> :nohl<CR><C-L>
-set cinoptions+=:0
 " Quickfix traversing
 nnoremap <leader>j :cn<CR>
 nnoremap <leader>k :cp<CR>
 " Fixing ctrl ergonomy
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
+" Find files in path
+nnoremap <leader>ff :find<space>
+" Find strings in files in path
+nnoremap <leader>fs :grep<space>
+" disable search highlighting with <C-L> when refreshing screen
+nnoremap <C-L> :nohl<CR><C-L>
+set cinoptions+=:0
 " Trigger the auto completion with tab 2x
 imap <tab><tab> <c-x><c-o>
 
+au FileType go nmap <leader>n iif err != nil {return err}<CR><ESC>
+" use :f instead of :find
+" cabbrev f find
 
-"##################### Do things without plugins #######################
+" ##################### Do things without plugins #######################
 " INTELLISENSE enable omni-completion
 " set omnifunc=syntaxcomplete#Complete
 " imap <tab><tab> <c-x><c-o>
