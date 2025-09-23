@@ -35,18 +35,14 @@ export TERM=xterm-kitty
 # Force nvim use my vimrc
 #export VIMINIT="source $HOME/.vimrc"
 
-# yarn
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export YARN_RC_FILENAME=~/.config/yarn/.yarnrc
-
 # Local scripts
 export PATH="$HOME/.local/bin:$PATH"
 
 # Force FZF (including fzf.vim) use fd and its ignore
-# export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow"
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow"
 
 # rg (Ripgrep) config
-# export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
+export RIPGREP_CONFIG_PATH="$HOME/.config/rg/config"
 
 ## bash files
 export HISTFILE=~/.config/bash/.histfile
@@ -62,7 +58,7 @@ export REPOS="$HOME/repos"
 export ICLOUD="$HOME/Library/Mobile\ Documents/"
 export LOGSEQ="$ICLOUD/iCloud~com~logseq~logseq/Documents"
 # Technical notes
-export TN="$ICLOUD/iCloud~md~obsidian/Documents/tn"
+#export TN="$ICLOUD/iCloud~md~obsidian/Documents/tn"
 
 
 
@@ -101,7 +97,7 @@ alias tfs="ct && fs"
 alias mkdir="mkdir -p"
 
 if command -v eza &>/dev/null; then
-	alias ls="eza -lla --group-directories-first"
+	alias ls="eza -llAh -F --group-directories-first"
 else
 	alias ls="ls -lah"
 fi
@@ -110,9 +106,9 @@ fi
 # alias ls="gls -lah --group-directories-first"
 
 # Check if 'bat' is installed
-if command -v bat &>/dev/null; then
-	alias cat="bat -p"
-fi
+#if command -v bat &>/dev/null; then
+#	alias cat="bat -p"
+#fi
 
 # Connect to my raspberry
 alias raspi="ssh raspi"
@@ -127,15 +123,15 @@ alias gdiff="git diff | view -"
 # alias fd="fd --color=always"
 
 # VIM/NVIM
-# alias vim=nvim
+#alias vim=nvim
 # Point vi to real vi not vim
 alias vi="nvi"
 # Point ex to real ex not vim
 alias ex="nvi -e"
 
 # Edit rc files from everywhere
-alias vv="vi $HOME/.vimrc"
-alias vb="vi $HOME/.config/bash/.bashrc"
+alias vv="vim $HOME/.vimrc"
+alias vb="vim $HOME/.config/bash/.bashrc"
 alias vn="vim $HOME/.config/nvim/init.lua"
 alias eb="ed $HOME/.config/bash/.bashrc"
 
@@ -154,10 +150,18 @@ alias wget="wget --hsts-file ~/dotfiles/config/wget/wget-hsts"
 # ~~~~~~~~~~~~~~~ Others (utilities, language specifics etc) ~~~~~~~~~~~~~~~~~~~~~~~~
 # fzf
 # [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# eval "$(fzf --bash)"
+eval "$(fzf --bash)"
 
 # Rust
 source "$HOME/.cargo/env"
+
+# k8s
+alias k="kubectl"
+
+# postgres
+export PGDATA="/opt/homebrew/var/postgres"
+export PG_CONFIG="/opt/homebrew/etc/postgresql"
+
 
 # Custom prompt
 # from rwxrob. added newlines before all type of prompts (long, short, double)

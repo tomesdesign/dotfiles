@@ -1,4 +1,6 @@
 *node_modules*
+*venv*
+
 .git
 .Trash
 .DS_Store
@@ -46,6 +48,12 @@
 .local/state
 .local/darkfi
 .obsidian
+.kube
+.aws
+.rd
+.streamlit
+.minikube
+
 *.png
 
 assets

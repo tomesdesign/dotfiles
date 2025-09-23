@@ -46,7 +46,7 @@ disabled = true # disable the annoying cloud icon
 disabled = true
 
 [python]
-disabled = true
+# disabled = true
 
 [nodejs]
 disabled = true
@@ -60,8 +60,8 @@ disabled = true
 # [golang]
 # disabled = true
 
-# [c]
-# disabled = true
+[c]
+disabled = true
 
 # [cmake]
 # disabled = true
