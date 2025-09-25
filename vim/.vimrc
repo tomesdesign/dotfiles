@@ -16,31 +16,17 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
 
   call plug#begin('~/.local/share/vim/plugins')
 
-  Plug 'jiangmiao/auto-pairs'
-  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-  Plug 'junegunn/fzf.vim' 
-  Plug 'ap/vim-css-color'
-  Plug 'tpope/vim-commentary'
-  Plug 'itchyny/lightline.vim'
-  Plug 'shinchu/lightline-gruvbox.vim'
-  Plug 'airblade/vim-gitgutter'
-  Plug 'sainnhe/gruvbox-material'
-  Plug 'yegappan/lsp'
-  Plug 'dense-analysis/ale'
-
-  " if has('vim')
-  "   Plug 'vim-pandoc/vim-pandoc'  
-  "   Plug 'vim-pandoc/vim-pandoc-syntax'
-  " endif
-
-  if has('nvim')
-    Plug '3rd/image.nvim'
-    Plug 'hrsh7th/nvim-cmp'
-    Plug 'epwalsh/obsidian.nvim'
-    Plug 'nvim-lua/plenary.nvim'
-    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-    Plug 'MeanderingProgrammer/render-markdown.nvim'
-  endif
+      Plug 'jiangmiao/auto-pairs'
+      Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+      Plug 'junegunn/fzf.vim' 
+      Plug 'ap/vim-css-color'
+      Plug 'tpope/vim-commentary'
+      Plug 'itchyny/lightline.vim'
+      Plug 'shinchu/lightline-gruvbox.vim'
+      Plug 'airblade/vim-gitgutter'
+      Plug 'sainnhe/gruvbox-material'
+      Plug 'yegappan/lsp'
+      Plug 'dense-analysis/ale'
 
   call plug#end()
 
@@ -202,11 +188,11 @@ nnoremap <leader>p :bprevious<CR>
 " better list and change buffers
 nnoremap <leader>l :ls<CR>:b<space>
 " Copy into clipboard
-" vnoremap <leader>c "+y
-" nnoremap <leader>c "+y
+vnoremap <leader>c "+y
+nnoremap <leader>c "+y
 " Quickfix traversing
-" nnoremap <leader>j :cn<CR>
-" nnoremap <leader>k :cp<CR>
+nnoremap <leader>j :cn<CR>
+nnoremap <leader>k :cp<CR>
 " Fixing ctrl ergonomy
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
@@ -221,7 +207,7 @@ set cinoptions+=:0
 " imap <tab><tab> <c-x><c-o>
 
 " use :f instead of :find
-cabbrev f find
+" cabbrev f find
 
 " ##################### Do things without plugins #######################
 " INTELLISENSE enable omni-completion
