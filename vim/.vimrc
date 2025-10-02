@@ -17,15 +17,13 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   call plug#begin('~/.local/share/vim/plugins')
 
       Plug 'jiangmiao/auto-pairs'
-      Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-      Plug 'junegunn/fzf.vim' 
+      Plug 'mattn/emmet-vim'
       Plug 'ap/vim-css-color'
       Plug 'tpope/vim-commentary'
       Plug 'itchyny/lightline.vim'
       Plug 'shinchu/lightline-gruvbox.vim'
       Plug 'airblade/vim-gitgutter'
       Plug 'sainnhe/gruvbox-material'
-      Plug 'yegappan/lsp'
       Plug 'dense-analysis/ale'
 
   call plug#end()
@@ -33,11 +31,6 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   " " color scheme
   colorscheme gruvbox-material
   let g:gruvbox_material_background = 'medium'
-
-  " FZF
-  nnoremap <leader>ff :Files<CR>
-  nnoremap <leader>fg :GFiles<CR>
-  nnoremap <leader>fs :Rg<CR>
 
   " Lightline
   set laststatus=2
@@ -75,13 +68,35 @@ if filereadable(expand("~/.vim/autoload/plug.vim"))
   let g:ale_set_quickfix = 1
   let g:ale_fix_on_save = 1
   " let g:ale_python_flake8_options = '--ignore=E501,W291'
+
+  " emmet
+    let g:user_emmet_settings = {
+    \  'variables': {'lang': 'en'},
+    \  'html': {
+    \    'default_attributes': {
+    \      'option': {'value': v:null},
+    \      'textarea': {'id': v:null, 'name': v:null, 'cols': 10, 'rows': 10},
+    \    },
+    \    'snippets': {
+    \      'html:5': "<!DOCTYPE html>\n"
+    \              ."<html lang=\"${lang}\">\n"
+    \              ."<head>\n"
+    \              ."\t<meta charset=\"${charset}\">\n"
+    \              ."\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+    \              ."\t<link rel=\"stylesheet\" href=\"styles.css\">\n"
+    \              ."\t<title></title>\n"
+    \              ."</head>\n"
+    \              ."<body>\n\t${child}|\n</body>\n"
+    \              ."</html>",
+    \    },
+    \  },
+    \}  
+
+    let g:user_emmet_leader_key='<C-E>'
   
 endif
 
-
-" ####################### Vi Compatible (~/.exrc) #######################
-" Copy this settings into ~/.exrc on a system where VIM is not available
-" number of spaces to replace a tab with
+"########################### General  ##################################
 set tabstop=4
 set shiftwidth=4
 " automatically write files when changing when multiple files open
@@ -90,38 +105,23 @@ set autowrite
 set number
 " show command and insert mode
 set showmode
-" uncomment this for vi
-" set verbose
-" set leftright
-" map tp :?^$?,//!fmt -pw 72
-" map tt :%s/[[:space:]]\{1,\}$//g
-" set cedit=\
-" set filec=\
-" set autoindent cedit=
-
-"########################### General  ##################################
 " vim hardcodes background color erase even if the terminfo file does not contain bce (not to
 " mention that libvte based terminals incorrectly contain bce in their terminfo files). This causes
 " incorrect background rendering when using a color theme with a background color.
 let &t_ut=''
-
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8
 set background=dark
 set termguicolors
-
 " Better markdown
 set conceallevel=2
-
 set nocompatible
-
 " Sets how many lines of history VIM has to remember
 set history=500
 "Set to auto read when a file is changed from the outside
 set autoread
 au FocusGained,BufEnter * silent! checktime
-
 " better ascii friendly listchars
 set listchars=space:*,trail:*,nbsp:*,extends:>,precedes:<,tab:\|>
 " use smartcase when searching
@@ -163,21 +163,12 @@ set nospell
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
-" Markdown
-" autocmd BufNewFile,BufRead *.md set filetype=markdown
-" au FileType markdown set tabstop=2
-" au FileType markdown set shiftwidth=2
-
-" Force header files to be C files
-au bufnewfile,bufRead *.h set ft=c,cpp
-
 " Do not insert command header on newline
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 "########################## Keymaps  ###################################
 " I want to stick with the default vi as much as possible
 " Disable Arrow keys in insert mode
-
 inoremap <up> <NOP>
 inoremap <down> <NOP>
 inoremap <left> <NOP>
@@ -197,23 +188,16 @@ nnoremap <leader>k :cp<CR>
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 " Find files in path
-" nnoremap <leader>ff :find<space>
+nnoremap <leader>ff :find<space>
 " " Find strings in files in path
-" nnoremap <leader>fs :grep<space>
+nnoremap <leader>fs :grep<space>
 " disable search highlighting with <C-L> when refreshing screen
 nnoremap <C-L> :nohl<CR><C-L>
 set cinoptions+=:0
-" Trigger the auto completion with tab 2x
-" imap <tab><tab> <c-x><c-o>
-
 " use :f instead of :find
-" cabbrev f find
+cabbrev f find
 
 " ##################### Do things without plugins #######################
-" INTELLISENSE enable omni-completion
-set omnifunc=syntaxcomplete#Complete
-" imap <tab><tab> <c-x><c-o>
-
 "" FILES HANDLING
 " hit tab to :find by partial match
 " " use * to make it fuzzy
